@@ -56,3 +56,55 @@ export async function fetchLatestQuote(symbol: string): Promise<OrderQuote | nul
     asOf: quote.t ?? new Date().toISOString(),
   };
 }
+
+export interface Bar {
+  time: number; // unix seconds, as lightweight-charts expects
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+}
+
+const TIMEFRAME_TO_ALPACA: Record<string, { timeframe: string; days: number }> = {
+  "1D": { timeframe: "5Min", days: 1 },
+  "1W": { timeframe: "30Min", days: 7 },
+  "1M": { timeframe: "1Day", days: 30 },
+  "3M": { timeframe: "1Day", days: 90 },
+  "1Y": { timeframe: "1Day", days: 365 },
+};
+
+export async function fetchHistoricalBars(symbol: string, uiTimeframe: string): Promise<Bar[]> {
+  if (!isAlpacaMarketDataConfigured()) return [];
+
+  const env = getEnv();
+  const basicAuth = Buffer.from(
+    `${env.ALPACA_MARKET_DATA_API_KEY_ID}:${env.ALPACA_MARKET_DATA_API_SECRET}`,
+  ).toString("base64");
+
+  const config = TIMEFRAME_TO_ALPACA[uiTimeframe] ?? TIMEFRAME_TO_ALPACA["1M"]!;
+  const start = new Date(Date.now() - config.days * 24 * 60 * 60 * 1000).toISOString();
+
+  const url = new URL(`https://data.alpaca.markets/v2/stocks/${symbol}/bars`);
+  url.searchParams.set("timeframe", config.timeframe);
+  url.searchParams.set("start", start);
+  url.searchParams.set("limit", "500");
+  url.searchParams.set("adjustment", "raw");
+
+  const response = await fetch(url, {
+    headers: { Authorization: `Basic ${basicAuth}` },
+    cache: "no-store",
+  });
+  if (!response.ok) return [];
+
+  const body = await response.json();
+  const bars = body?.bars as Array<{ t: string; o: number; h: number; l: number; c: number }> | undefined;
+  if (!bars) return [];
+
+  return bars.map((bar) => ({
+    time: Math.floor(new Date(bar.t).getTime() / 1000),
+    open: bar.o,
+    high: bar.h,
+    low: bar.l,
+    close: bar.c,
+  }));
+}

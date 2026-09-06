@@ -109,5 +109,39 @@ export interface Database {
     Views: {
       leader_copier_counts: { Row: LeaderCopierCountRow };
     };
+    Functions: {
+      record_self_directed_trade: {
+        Args: {
+          p_user_id: string;
+          p_alpaca_order_id: string;
+          p_symbol: string;
+          p_qty: number;
+          p_side: OrderSide;
+          p_order_type: OrderType;
+          p_platform_fee?: number;
+        };
+        Returns: TradeRow;
+      };
+      record_copy_trade: {
+        Args: {
+          p_user_id: string;
+          p_alpaca_order_id: string;
+          p_symbol: string;
+          p_qty: number;
+          p_side: OrderSide;
+          p_order_type: OrderType;
+          p_source_trade_id: string;
+        };
+        Returns: TradeRow;
+      };
+      reconcile_trade_execution: {
+        Args: {
+          p_alpaca_order_id: string;
+          p_execution_price: number;
+          p_executed_at: string;
+        };
+        Returns: TradeRow;
+      };
+    };
   };
 }
