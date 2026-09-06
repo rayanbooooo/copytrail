@@ -26,7 +26,6 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
           className="w-full bg-transparent font-mono text-2xl font-medium tracking-tight text-ink placeholder:text-ink-faint focus:outline-none"
           onChange={(e) => {
             const cleaned = e.target.value.replace(/[^0-9.]/g, "");
-            e.target.value = cleaned;
             onValueChange?.(cleaned);
           }}
           onBlur={onBlur}
