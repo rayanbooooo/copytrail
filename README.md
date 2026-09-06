@@ -13,6 +13,14 @@ Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS · Framer
 Motion · TradingView `lightweight-charts` v4 · Supabase (Postgres + RLS +
 Realtime) · Alpaca Broker API · Plaid · Stripe.
 
+## Live preview
+
+Deployed on Vercel, connected to a live Supabase project (schema + demo
+leaderboard seed applied): https://copytrail-zeta.vercel.app
+
+Alpaca, Plaid, and Stripe are intentionally unconfigured in this preview —
+those sections of the app render `ConfigMissingBanner` instead of failing.
+
 ## Getting started
 
 ```bash
