@@ -45,15 +45,34 @@ export async function getFollowForUser(supabase: Client, followerId: string, lea
   return data;
 }
 
-export async function getActiveFollowing(supabase: Client, followerId: string) {
+export interface ActiveFollowingRow {
+  id: string;
+  allocation_amount: number;
+  leaderDisplayName: string;
+}
+
+export async function getActiveFollowing(
+  supabase: Client,
+  followerId: string,
+): Promise<ActiveFollowingRow | null> {
   const { data } = await supabase
     .from("follows")
-    .select("*, leaders(*)")
+    .select("id, allocation_amount, leaders(profiles!leaders_profile_id_fkey(email))")
     .eq("follower_id", followerId)
     .eq("status", "active")
     .limit(1)
     .maybeSingle();
-  return data;
+
+  if (!data) return null;
+
+  const leader = data.leaders as unknown as { profiles: { email: string } | null } | null;
+  const email = leader?.profiles?.email ?? "Trader";
+
+  return {
+    id: data.id,
+    allocation_amount: data.allocation_amount,
+    leaderDisplayName: email.split("@")[0] ?? "Trader",
+  };
 }
 
 export async function getWallet(supabase: Client, userId: string) {
