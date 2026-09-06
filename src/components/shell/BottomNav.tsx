@@ -5,11 +5,16 @@ import { usePathname } from "next/navigation";
 import { LineChart, Rows3, WalletMinimal } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
-const items = [
+const items: ReadonlyArray<{
+  href: string;
+  label: string;
+  icon: typeof Rows3;
+  matchPrefix?: string;
+}> = [
   { href: "/feed", label: "Feed", icon: Rows3 },
   { href: "/trade/AAPL", label: "Trade", icon: LineChart, matchPrefix: "/trade" },
   { href: "/wallet", label: "Wallet", icon: WalletMinimal },
-] as const;
+];
 
 export function BottomNav() {
   const pathname = usePathname();

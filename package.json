@@ -11,7 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "next": "15.1.6",
+    "next": "15.5.25",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "typescript": "5.7.3",
@@ -21,7 +21,7 @@
     "@supabase/supabase-js": "2.48.1",
     "stripe": "17.5.0",
     "plaid": "33.0.0",
-    "react-plaid-link": "3.6.1",
+    "react-plaid-link": "5.0.0",
     "zod": "3.24.1",
     "react-hook-form": "7.54.2",
     "@hookform/resolvers": "3.9.1",
@@ -32,16 +32,16 @@
     "server-only": "0.0.1"
   },
   "devDependencies": {
-    "@types/node": "22.10.5",
+    "@types/node": "22.15.0",
     "@types/react": "19.0.4",
     "@types/react-dom": "19.0.2",
     "autoprefixer": "10.4.20",
     "postcss": "8.4.49",
     "tailwindcss": "3.4.17",
     "eslint": "8.57.1",
-    "eslint-config-next": "15.1.6",
+    "eslint-config-next": "15.5.25",
     "prettier": "3.4.2",
     "prettier-plugin-tailwindcss": "0.6.9",
-    "vitest": "2.1.8"
+    "vitest": "5.0.0"
   }
 }
