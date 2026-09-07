@@ -37,31 +37,31 @@ export function PortfolioHeroCard({
   const positive = changeAbsolute >= 0;
 
   return (
-    <Card className="border-white/[0.1]">
-      <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-faint">
-        Total portfolio value
-      </p>
-      <p className="mt-2 font-mono text-[38px] font-semibold leading-none tracking-tight text-ink">
-        {formatCurrency(total)}
-      </p>
-
-      {series.length >= 2 ? (
-        <p className={`mt-2 font-mono text-[13px] font-medium ${positive ? "text-emerald-signal" : "text-rose-signal"}`}>
-          {formatSignedCurrency(changeAbsolute)} ({formatPercent(changePercent, { signed: true })})
-        </p>
-      ) : (
-        <p className="mt-2 text-[13px] text-ink-faint">History fills in daily as your account syncs.</p>
-      )}
-
-      <div className="my-4 flex h-[72px] items-end">
-        <Sparkline data={series} positive={positive} width={320} height={64} className="w-full" />
-      </div>
-
-      <div className="flex items-center justify-between">
+    <Card>
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-[10.5px] font-semibold uppercase tracking-wide text-ink-faint">
+            Total portfolio value
+          </p>
+          <p className="mt-1 font-mono text-[28px] font-semibold leading-none tracking-tight tabular-nums text-ink">
+            {formatCurrency(total)}
+          </p>
+          {series.length >= 2 ? (
+            <p className={`mt-1.5 font-mono text-[12px] font-medium tabular-nums ${positive ? "text-emerald-signal" : "text-rose-signal"}`}>
+              {formatSignedCurrency(changeAbsolute)} ({formatPercent(changePercent, { signed: true })})
+            </p>
+          ) : (
+            <p className="mt-1.5 text-[12px] text-ink-faint">History fills in daily.</p>
+          )}
+        </div>
         <SegmentedControl options={TIMEFRAMES} value={timeframe} onChange={setTimeframe} />
       </div>
 
-      <div className="mt-5 flex items-center justify-between rounded-xl border border-hairline-soft bg-black/20 px-4 py-3">
+      <div className="my-3 flex h-[56px] items-end">
+        <Sparkline data={series} positive={positive} width={320} height={52} className="w-full" />
+      </div>
+
+      <div className="flex items-center justify-between rounded border border-hairline-soft bg-black/20 px-3 py-2.5">
         <Stat label="Cash available" value={formatCurrency(cashBalance)} />
         <Stat label="Invested" value={formatCurrency(portfolioValue)} align="center" />
       </div>

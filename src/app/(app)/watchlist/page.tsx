@@ -2,7 +2,7 @@ import Link from "next/link";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getWatchlist } from "@/lib/db/queries";
 import { getSymbolMeta } from "@/lib/data/symbols";
-import { Card, CardDivider } from "@/components/ui/Card";
+import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { WatchlistRow } from "@/components/watchlist/WatchlistRow";
 
@@ -17,9 +17,9 @@ export default async function WatchlistPage() {
   const items = await getWatchlist(supabase, user.id);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold tracking-tight text-ink">Watchlist</h1>
+        <h1 className="text-[17px] font-semibold tracking-tight text-ink">Watchlist</h1>
       </div>
 
       {items.length === 0 ? (
@@ -29,14 +29,11 @@ export default async function WatchlistPage() {
           </p>
         </Card>
       ) : (
-        <Card className="p-0">
-          {items.map((item, i) => (
-            <div key={item.id}>
-              {i > 0 && <CardDivider />}
-              <WatchlistRow meta={getSymbolMeta(item.symbol)} />
-            </div>
+        <div className="rounded-lg border border-hairline">
+          {items.map((item) => (
+            <WatchlistRow key={item.id} meta={getSymbolMeta(item.symbol)} />
           ))}
-        </Card>
+        </div>
       )}
 
       <Link href="/markets">

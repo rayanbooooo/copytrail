@@ -30,8 +30,8 @@ export default async function TraderProfilePage({ params }: { params: Promise<{ 
   const isFollowing = existingFollow?.status === "active";
 
   return (
-    <div className="space-y-5">
-      <div className="-mx-5 -mt-5 h-28 bg-gradient-to-br from-emerald-signal/20 via-surface to-base lg:mx-0 lg:mt-0 lg:rounded-3xl" />
+    <div className="space-y-4">
+      <div className="-mx-4 -mt-4 h-24 bg-gradient-to-br from-emerald-signal/20 via-surface to-base lg:mx-0 lg:mt-0 lg:rounded-lg" />
 
       <div className="-mt-10 flex items-end justify-between px-1">
         <div className="flex items-end gap-3">
@@ -41,9 +41,9 @@ export default async function TraderProfilePage({ params }: { params: Promise<{ 
 
       <div>
         <div className="flex items-center gap-2">
-          <h1 className="text-xl font-semibold tracking-tight text-ink">{leader.displayName}</h1>
+          <h1 className="text-[17px] font-semibold tracking-tight text-ink">{leader.displayName}</h1>
           {leader.is_verified && (
-            <Pill tone="emerald" glow className="gap-1">
+            <Pill tone="emerald" className="gap-1">
               <ShieldCheck className="h-3 w-3" />
               Verified Pro
             </Pill>

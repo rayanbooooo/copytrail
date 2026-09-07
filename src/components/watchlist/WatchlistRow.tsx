@@ -26,7 +26,7 @@ export function WatchlistRow({ meta }: { meta: SymbolMeta }) {
           })
         }
         aria-label="Remove from watchlist"
-        className="mr-5 shrink-0 text-ink-faint active:scale-90 transition-transform"
+        className="mr-3 shrink-0 text-ink-faint active:scale-90 transition-transform"
       >
         <Star className="h-[18px] w-[18px] fill-emerald-signal text-emerald-signal" />
       </button>

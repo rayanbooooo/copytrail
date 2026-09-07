@@ -20,9 +20,9 @@ export default async function DiscoverPage() {
   const followedLeaderIds = new Set((followsResult.data ?? []).map((f) => f.leader_id));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div>
-        <h1 className="mb-4 text-xl font-semibold tracking-tight text-ink">Discover</h1>
+        <h1 className="mb-4 text-[17px] font-semibold tracking-tight text-ink">Discover</h1>
         <HeroStatsBlock aggregateReturn30d={aggregateReturn} activeLeaders={leaders.length} />
       </div>
       <DiscoverTabs leaders={leaders} followedLeaderIds={followedLeaderIds} />

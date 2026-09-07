@@ -19,7 +19,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <div className="lg:hidden">
           <GlassHeader userEmail={user.email ?? undefined} />
         </div>
-        <main className="mx-auto w-full max-w-lg flex-1 px-5 pb-8 pt-5 lg:max-w-5xl lg:px-10 lg:py-10">
+        <main className="mx-auto w-full max-w-lg flex-1 px-4 pb-8 pt-4 lg:max-w-[1400px] lg:px-8 lg:py-6">
           {children}
         </main>
         <BottomNav />

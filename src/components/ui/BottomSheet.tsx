@@ -25,14 +25,14 @@ export function BottomSheet({ open, onClose, title, subtitle, children }: Bottom
           onClick={onClose}
         >
           <motion.div
-            className="max-h-[88vh] w-full max-w-sm overflow-y-auto rounded-t-3xl border border-hairline bg-surface p-6 sm:rounded-3xl"
+            className="max-h-[88vh] w-full max-w-sm overflow-y-auto rounded-t-xl border border-hairline bg-surface p-4 sm:rounded-xl"
             variants={slideUpModal}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-4 flex items-start justify-between">
+            <div className="mb-3 flex items-start justify-between">
               <div>
-                <h2 className="text-lg font-semibold text-ink">{title}</h2>
-                {subtitle && <p className="mt-0.5 text-[13px] text-ink-muted">{subtitle}</p>}
+                <h2 className="text-[14px] font-semibold text-ink">{title}</h2>
+                {subtitle && <p className="mt-0.5 text-[11.5px] text-ink-muted">{subtitle}</p>}
               </div>
               <button onClick={onClose} aria-label="Close" className="text-ink-faint">
                 <X className="h-5 w-5" />

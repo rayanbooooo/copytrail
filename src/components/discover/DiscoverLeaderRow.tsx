@@ -10,24 +10,24 @@ export function DiscoverLeaderRow({ leader, isFollowing }: { leader: LeaderCardD
   const positive = leader.total_return_30d >= 0;
 
   return (
-    <div className="flex items-center justify-between px-5 py-4">
-      <Link href={`/leader/${leader.id}`} className="flex min-w-0 flex-1 items-center gap-3">
-        <Avatar name={leader.displayName} size={40} />
+    <div className="flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.02]">
+      <Link href={`/leader/${leader.id}`} className="flex min-w-0 flex-1 items-center gap-2.5">
+        <Avatar name={leader.displayName} size={32} />
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
-            <span className="truncate text-[14px] font-semibold text-ink">{leader.displayName}</span>
+            <span className="truncate text-[13px] font-semibold leading-tight text-ink">{leader.displayName}</span>
             {leader.is_verified && (
-              <Pill tone="emerald" glow className="gap-1 px-1.5 py-0.5">
-                <ShieldCheck className="h-3 w-3" />
+              <Pill tone="emerald" className="gap-1 px-1 py-0">
+                <ShieldCheck className="h-2.5 w-2.5" />
               </Pill>
             )}
           </div>
-          <p className="text-[12px] text-ink-faint">{leader.copierCount.toLocaleString()} followers</p>
+          <p className="text-[11px] leading-tight text-ink-faint">{leader.copierCount.toLocaleString()} followers</p>
         </div>
       </Link>
 
-      <div className="flex shrink-0 items-center gap-3">
-        <span className={`font-mono text-[14px] font-semibold ${positive ? "text-emerald-signal" : "text-rose-signal"}`}>
+      <div className="flex shrink-0 items-center gap-2.5">
+        <span className={`font-mono text-[13px] font-semibold tabular-nums ${positive ? "text-emerald-signal" : "text-rose-signal"}`}>
           {formatPercent(leader.total_return_30d, { signed: true })}
         </span>
         <Link href={`/leader/${leader.id}/copy`}>

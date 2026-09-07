@@ -20,18 +20,18 @@ export function HoldingsList({ holdings }: { holdings: HoldingSummary[] }) {
       {holdings.map((holding, i) => {
         const meta = getSymbolMeta(holding.symbol);
         return (
-          <Link key={holding.symbol} href={`/trade/${holding.symbol}`} className="block">
-            <div className={`flex items-center justify-between px-5 py-4 ${i > 0 ? "border-t border-hairline-soft" : ""}`}>
-              <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-hairline bg-black/20 text-[11px] font-semibold text-ink-muted">
+          <Link key={holding.symbol} href={`/trade/${holding.symbol}`} className="block hover:bg-white/[0.02]">
+            <div className={`flex items-center justify-between px-3 py-2.5 ${i > 0 ? "border-t border-hairline-soft" : ""}`}>
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-7 w-7 items-center justify-center rounded border border-hairline bg-black/30 text-[9.5px] font-semibold text-ink-muted">
                   {holding.symbol.slice(0, 4)}
                 </span>
                 <div>
-                  <p className="text-[14px] font-medium text-ink">{meta.name}</p>
-                  <p className="text-[12px] text-ink-faint">{formatQty(holding.qty)} shares</p>
+                  <p className="text-[13px] font-medium leading-tight text-ink">{meta.symbol}</p>
+                  <p className="text-[11px] leading-tight text-ink-faint">{formatQty(holding.qty)} shares</p>
                 </div>
               </div>
-              <span className="text-[12px] text-ink-faint">View</span>
+              <span className="text-[11px] text-ink-faint">{meta.name}</span>
             </div>
           </Link>
         );

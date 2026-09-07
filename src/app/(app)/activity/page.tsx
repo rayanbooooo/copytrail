@@ -13,8 +13,8 @@ export default async function ActivityPage() {
   const trades = await getRecentTrades(supabase, user.id, 50);
 
   return (
-    <div className="space-y-5">
-      <h1 className="text-xl font-semibold tracking-tight text-ink">Activity</h1>
+    <div className="space-y-4">
+      <h1 className="text-[17px] font-semibold tracking-tight text-ink">Activity</h1>
       <ActivityList trades={trades} />
     </div>
   );

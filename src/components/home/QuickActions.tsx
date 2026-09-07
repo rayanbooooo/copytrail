@@ -18,10 +18,10 @@ export function QuickActions() {
         <Link key={label} href={href}>
           <motion.div
             whileTap={{ scale: 0.94 }}
-            className="flex flex-col items-center gap-2 rounded-2xl border border-hairline bg-surface py-3.5"
+            className="flex flex-col items-center gap-1.5 rounded-lg border border-hairline bg-surface py-2.5"
           >
-            <Icon className="h-[19px] w-[19px] text-ink" strokeWidth={1.8} />
-            <span className="text-[11.5px] font-medium text-ink-muted">{label}</span>
+            <Icon className="h-[17px] w-[17px] text-ink" strokeWidth={1.8} />
+            <span className="text-[10.5px] font-medium text-ink-muted">{label}</span>
           </motion.div>
         </Link>
       ))}

@@ -30,7 +30,7 @@ export default async function TradeTerminalPage({
   ]);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
       <AssetHeader meta={meta} initiallyWatched={Boolean(watchlistRow.data)} />
       <TerminalBody meta={meta} buyingPower={wallet?.cash_balance ?? 0} />
     </div>

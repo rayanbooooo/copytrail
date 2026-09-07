@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
-import { Card, CardDivider } from "@/components/ui/Card";
 import { ConfigMissingBanner } from "@/components/ui/ConfigMissingBanner";
 import { MarketRow } from "@/components/markets/MarketRow";
 import { SYMBOL_UNIVERSE } from "@/lib/data/symbols";
@@ -29,14 +28,14 @@ export function MarketsList({ marketDataConfigured }: { marketDataConfigured: bo
   }, [filter, query]);
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2 rounded-xl border border-hairline bg-surface px-4 py-3">
-        <Search className="h-4 w-4 text-ink-faint" />
+    <div className="space-y-3">
+      <div className="flex items-center gap-2 rounded-lg border border-hairline bg-surface px-3 py-2">
+        <Search className="h-3.5 w-3.5 text-ink-faint" />
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search stocks, forex…"
-          className="w-full bg-transparent text-[14px] text-ink placeholder:text-ink-faint focus:outline-none"
+          className="w-full bg-transparent text-[13px] text-ink placeholder:text-ink-faint focus:outline-none"
         />
       </div>
 
@@ -49,17 +48,19 @@ export function MarketsList({ marketDataConfigured }: { marketDataConfigured: bo
         />
       )}
 
-      <Card className="p-0">
-        {results.map((meta, i) => (
-          <div key={meta.symbol}>
-            {i > 0 && <CardDivider />}
-            <MarketRow meta={meta} />
-          </div>
+      <div className="rounded-lg border border-hairline">
+        <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-hairline px-3 py-2 text-[10.5px] font-semibold uppercase tracking-wide text-ink-faint">
+          <span>Asset</span>
+          <span className="hidden sm:block">Chart</span>
+          <span className="text-right">Price / 24h</span>
+        </div>
+        {results.map((meta) => (
+          <MarketRow key={meta.symbol} meta={meta} />
         ))}
         {results.length === 0 && (
-          <p className="px-5 py-6 text-center text-[13px] text-ink-muted">No matches.</p>
+          <p className="px-3 py-6 text-center text-[13px] text-ink-muted">No matches.</p>
         )}
-      </Card>
+      </div>
     </div>
   );
 }

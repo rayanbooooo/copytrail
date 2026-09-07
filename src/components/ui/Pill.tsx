@@ -12,17 +12,14 @@ const toneClasses: Record<Tone, string> = {
 
 interface PillProps extends HTMLAttributes<HTMLSpanElement> {
   tone?: Tone;
-  glow?: boolean;
 }
 
-export function Pill({ tone = "neutral", glow = false, className, ...props }: PillProps) {
+export function Pill({ tone = "neutral", className, ...props }: PillProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide",
+        "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
         toneClasses[tone],
-        glow && tone === "emerald" && "shadow-glow-emerald",
-        glow && tone === "rose" && "shadow-glow-rose",
         className,
       )}
       {...props}

@@ -29,17 +29,17 @@ export function OrderForm({ symbol, buyingPower, price, initialSide = "buy" }: O
   const estShares = price && numericAmount ? numericAmount / price : null;
 
   return (
-    <div className="space-y-4">
-      <SegmentedControl options={SIDES} value={sideLabel} onChange={(v) => { setSideLabel(v); setPreviewing(false); }} />
+    <div className="space-y-3">
+      <SegmentedControl options={SIDES} value={sideLabel} onChange={(v) => { setSideLabel(v); setPreviewing(false); }} className="w-full" />
 
       <div className="flex items-center justify-between">
-        <span className="text-[13px] font-medium text-ink-muted">Buying power</span>
-        <span className="font-mono text-[15px] font-medium text-ink">{formatCurrency(buyingPower)}</span>
+        <span className="text-[12px] font-medium text-ink-muted">Buying power</span>
+        <span className="font-mono text-[13px] font-medium tabular-nums text-ink">{formatCurrency(buyingPower)}</span>
       </div>
 
       <CardDivider />
 
-      <form action={formAction} className="space-y-4">
+      <form action={formAction} className="space-y-3">
         <input type="hidden" name="symbol" value={symbol} />
         <input type="hidden" name="orderType" value="market" />
         <input type="hidden" name="side" value={side} />
@@ -59,9 +59,9 @@ export function OrderForm({ symbol, buyingPower, price, initialSide = "buy" }: O
           <p className="text-[12px] text-ink-faint">≈ {estShares.toFixed(4)} shares at {formatCurrency(price!)}</p>
         )}
 
-        <div className="flex items-center justify-between rounded-xl border border-hairline-soft bg-black/20 px-4 py-2.5 text-[12px] text-ink-muted">
+        <div className="flex items-center justify-between rounded border border-hairline-soft bg-black/20 px-3 py-2 text-[11.5px] text-ink-muted">
           <span>Platform commission</span>
-          <span className="font-mono text-ink">$1.00</span>
+          <span className="font-mono tabular-nums text-ink">$1.00</span>
         </div>
 
         {state.error && <p className="text-sm text-rose-signal">{state.error}</p>}

@@ -13,17 +13,17 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
     return (
       <div
         className={cn(
-          "flex items-center gap-1 rounded-2xl border border-hairline bg-surface px-4 py-3.5",
+          "flex items-center gap-1 rounded-lg border border-hairline bg-black/30 px-3 py-2.5",
           "focus-within:border-emerald-signal/50 transition-colors",
           className,
         )}
       >
-        <span className="font-mono text-2xl font-medium text-ink-faint">$</span>
+        <span className="font-mono text-lg font-medium text-ink-faint">$</span>
         <input
           ref={ref}
           inputMode="decimal"
           placeholder="0.00"
-          className="w-full bg-transparent font-mono text-2xl font-medium tracking-tight text-ink placeholder:text-ink-faint focus:outline-none"
+          className="w-full bg-transparent font-mono text-lg font-medium tracking-tight tabular-nums text-ink placeholder:text-ink-faint focus:outline-none"
           onChange={(e) => {
             const cleaned = e.target.value.replace(/[^0-9.]/g, "");
             onValueChange?.(cleaned);

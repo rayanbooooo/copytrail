@@ -28,30 +28,31 @@ export function MarketRow({ meta }: { meta: SymbolMeta }) {
   const positive = (quote?.changePercent ?? 0) >= 0;
 
   return (
-    <Link href={`/trade/${meta.symbol}`} className="block">
-      <div className="flex items-center justify-between px-5 py-3.5">
-        <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-hairline bg-black/20 text-[10.5px] font-semibold text-ink-muted">
-            {meta.symbol.slice(0, 4)}
-          </span>
-          <div>
-            <p className="text-[14px] font-medium text-ink">{meta.symbol}</p>
-            <p className="text-[12px] text-ink-faint">{meta.name}</p>
-          </div>
+    <Link
+      href={`/trade/${meta.symbol}`}
+      className="grid grid-cols-[1fr_auto_auto] items-center gap-4 border-b border-hairline-soft px-3 py-2.5 hover:bg-white/[0.02]"
+    >
+      <div className="flex min-w-0 items-center gap-2.5">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded border border-hairline bg-black/30 text-[9.5px] font-semibold text-ink-muted">
+          {meta.symbol.slice(0, 4)}
+        </span>
+        <div className="min-w-0">
+          <p className="text-[13px] font-medium leading-tight text-ink">{meta.symbol}</p>
+          <p className="truncate text-[11px] leading-tight text-ink-faint">{meta.name}</p>
         </div>
-        <div className="flex items-center gap-3">
-          <Sparkline data={quote ? [quote.price] : []} positive={positive} width={48} height={22} />
-          <div className="text-right">
-            <p className="font-mono text-[14px] font-medium text-ink">
-              {quote ? formatCurrency(quote.price) : configured ? "—" : "N/A"}
-            </p>
-            {quote && (
-              <p className={`font-mono text-[11.5px] ${positive ? "text-emerald-signal" : "text-rose-signal"}`}>
-                {formatPercent(quote.changePercent, { signed: true })}
-              </p>
-            )}
-          </div>
-        </div>
+      </div>
+
+      <Sparkline data={quote ? [quote.price] : []} positive={positive} width={56} height={22} className="hidden sm:block" />
+
+      <div className="text-right">
+        <p className="font-mono text-[13px] font-medium tabular-nums text-ink">
+          {quote ? formatCurrency(quote.price) : configured ? "—" : "N/A"}
+        </p>
+        {quote && (
+          <p className={`font-mono text-[11px] tabular-nums ${positive ? "text-emerald-signal" : "text-rose-signal"}`}>
+            {formatPercent(quote.changePercent, { signed: true })}
+          </p>
+        )}
       </div>
     </Link>
   );
