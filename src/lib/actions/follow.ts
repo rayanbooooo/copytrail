@@ -41,8 +41,9 @@ export async function followLeader(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/feed");
-  revalidatePath("/wallet");
+  revalidatePath("/discover");
+  revalidatePath("/account");
+  revalidatePath("/home");
   return { success: true };
 }
 
@@ -60,6 +61,6 @@ export async function pauseFollow(followId: string) {
     .eq("follower_id", user.id);
 
   if (error) return { error: error.message };
-  revalidatePath("/wallet");
+  revalidatePath("/account");
   return { success: true };
 }

@@ -32,7 +32,7 @@ export function SignupForm() {
       setFormError(error.message);
       return;
     }
-    router.push("/feed");
+    router.push("/home");
     router.refresh();
   }
 

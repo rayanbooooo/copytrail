@@ -107,6 +107,7 @@ export async function submitSelfDirectedOrder(
   }
 
   revalidatePath(`/trade/${parsed.data.symbol}`);
-  revalidatePath("/wallet");
+  revalidatePath("/account");
+  revalidatePath("/home");
   return { success: true };
 }

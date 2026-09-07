@@ -10,7 +10,7 @@ export function GlassHeader({ title, userEmail }: GlassHeaderProps) {
   return (
     <header className="safe-top sticky top-0 z-30 border-b border-white/[0.06] bg-[#090A0F]/80 backdrop-blur-xl2">
       <div className="mx-auto flex h-16 max-w-lg items-center justify-between px-5">
-        <Link href="/feed" className="flex items-center gap-2.5">
+        <Link href="/home" className="flex items-center gap-2.5">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.1] bg-gradient-to-br from-emerald-signal/25 to-transparent">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path
@@ -29,7 +29,7 @@ export function GlassHeader({ title, userEmail }: GlassHeaderProps) {
           )}
         </Link>
         {userEmail && (
-          <Link href="/wallet" aria-label="Account">
+          <Link href="/account" aria-label="Account">
             <Avatar name={userEmail} size={32} />
           </Link>
         )}

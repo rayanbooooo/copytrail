@@ -82,7 +82,7 @@ export async function createAlpacaAccount(
   }
 
   revalidatePath("/onboarding/fund");
-  revalidatePath("/wallet");
+  revalidatePath("/account");
   return { success: true };
 }
 
@@ -134,6 +134,7 @@ export async function linkBankAndFund(
     return { error: err instanceof Error ? err.message : "Funding failed." };
   }
 
-  revalidatePath("/wallet");
+  revalidatePath("/account");
+  revalidatePath("/home");
   return { success: true };
 }

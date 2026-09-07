@@ -26,7 +26,7 @@ export function CopyEngineStatusBox({ following, nextBillingDate }: CopyEngineSt
           </div>
           <Pill tone="neutral">Idle</Pill>
         </div>
-        <Link href="/feed">
+        <Link href="/discover">
           <Button fullWidth className="mt-4" variant="outline">
             Browse the leaderboard
           </Button>

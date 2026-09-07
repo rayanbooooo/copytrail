@@ -27,7 +27,7 @@ export function LoginForm() {
       setFormError(error.message);
       return;
     }
-    router.push(searchParams.get("redirectedFrom") ?? "/feed");
+    router.push(searchParams.get("redirectedFrom") ?? "/home");
     router.refresh();
   }
 
