@@ -1,9 +1,9 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getAggregateCopyPoolReturn, getLeaderboard } from "@/lib/db/queries";
-import { HeroStatsBlock } from "@/components/feed/HeroStatsBlock";
-import { LeaderboardList } from "@/components/feed/LeaderboardList";
+import { HeroStatsBlock } from "@/components/discover/HeroStatsBlock";
+import { DiscoverTabs } from "@/components/discover/DiscoverTabs";
 
-export default async function FeedPage() {
+export default async function DiscoverPage() {
   const supabase = await createServerSupabaseClient();
   const {
     data: { user },
@@ -21,14 +21,11 @@ export default async function FeedPage() {
 
   return (
     <div className="space-y-6">
-      <HeroStatsBlock aggregateReturn30d={aggregateReturn} activeLeaders={leaders.length} />
-
       <div>
-        <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
-          Leaderboard
-        </h2>
-        <LeaderboardList leaders={leaders} followedLeaderIds={followedLeaderIds} />
+        <h1 className="mb-4 text-xl font-semibold tracking-tight text-ink">Discover</h1>
+        <HeroStatsBlock aggregateReturn30d={aggregateReturn} activeLeaders={leaders.length} />
       </div>
+      <DiscoverTabs leaders={leaders} followedLeaderIds={followedLeaderIds} />
     </div>
   );
 }

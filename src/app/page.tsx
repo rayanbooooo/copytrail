@@ -7,5 +7,5 @@ export default async function RootPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  redirect(user ? "/feed" : "/login");
+  redirect(user ? "/home" : "/login");
 }

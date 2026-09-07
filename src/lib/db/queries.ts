@@ -103,3 +103,66 @@ export async function getSubscription(supabase: Client, userId: string) {
     .maybeSingle();
   return data;
 }
+
+export async function getWatchlist(supabase: Client, userId: string) {
+  const { data } = await supabase
+    .from("watchlist_items")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  return data ?? [];
+}
+
+export interface HoldingSummary {
+  symbol: string;
+  qty: number;
+}
+
+/**
+ * Derives current per-symbol holdings from the trades ledger (sum of buys
+ * minus sells). This app doesn't maintain a separate "positions" table —
+ * trades are the single source of truth, so holdings are always computed,
+ * never independently stored and liable to drift.
+ */
+export async function getHoldings(supabase: Client, userId: string): Promise<HoldingSummary[]> {
+  const { data } = await supabase
+    .from("trades")
+    .select("symbol, qty, side")
+    .eq("user_id", userId);
+
+  if (!data) return [];
+
+  const bySymbol = new Map<string, number>();
+  for (const trade of data) {
+    const delta = trade.side === "buy" ? Number(trade.qty) : -Number(trade.qty);
+    bySymbol.set(trade.symbol, (bySymbol.get(trade.symbol) ?? 0) + delta);
+  }
+
+  return Array.from(bySymbol.entries())
+    .filter(([, qty]) => qty > 0.000001)
+    .map(([symbol, qty]) => ({ symbol, qty }));
+}
+
+export async function getWalletSnapshots(supabase: Client, userId: string, days = 30) {
+  const { data } = await supabase
+    .from("wallet_snapshots")
+    .select("*")
+    .eq("user_id", userId)
+    .order("snapshot_date", { ascending: true })
+    .limit(days);
+  return data ?? [];
+}
+
+export async function getLeaderById(supabase: Client, leaderId: string) {
+  const { data } = await supabase
+    .from("leaders")
+    .select("*, profiles!leaders_profile_id_fkey(email)")
+    .eq("id", leaderId)
+    .maybeSingle();
+  if (!data) return null;
+  const profile = (data as unknown as { profiles: { email: string } | null }).profiles;
+  return {
+    ...data,
+    displayName: profile?.email?.split("@")[0] ?? "Trader",
+  };
+}

@@ -2,7 +2,17 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 const AUTH_PREFIXES = ["/login", "/signup"];
-const APP_PATHS = ["/feed", "/trade", "/wallet", "/onboarding"];
+const APP_PATHS = [
+  "/home",
+  "/markets",
+  "/trade",
+  "/discover",
+  "/leader",
+  "/account",
+  "/watchlist",
+  "/activity",
+  "/onboarding",
+];
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -43,7 +53,7 @@ export async function updateSession(request: NextRequest) {
 
   if (user && isAuthPath) {
     const url = request.nextUrl.clone();
-    url.pathname = "/feed";
+    url.pathname = "/home";
     return NextResponse.redirect(url);
   }
 

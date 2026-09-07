@@ -37,17 +37,35 @@ export async function POST(request: Request) {
     return NextResponse.json({ synced: 0 });
   }
 
+  const today = new Date().toISOString().slice(0, 10);
+
   const results = await Promise.allSettled(
     profiles.map(async (profile) => {
       const snapshot = await getAccountSnapshot(profile.alpaca_account_id!);
+      const cashBalance = Number(snapshot.cash);
+      const portfolioValue = Number(snapshot.portfolio_value);
+
       await admin
         .from("wallets")
         .update({
-          cash_balance: Number(snapshot.cash),
-          portfolio_value: Number(snapshot.portfolio_value),
+          cash_balance: cashBalance,
+          portfolio_value: portfolioValue,
           updated_at: new Date().toISOString(),
         })
         .eq("user_id", profile.id);
+
+      // Feeds the Home screen's real portfolio-value sparkline — one row
+      // per user per day, so it fills in with genuine history over time
+      // instead of a fabricated line.
+      await admin.from("wallet_snapshots").upsert(
+        {
+          user_id: profile.id,
+          snapshot_date: today,
+          cash_balance: cashBalance,
+          portfolio_value: portfolioValue,
+        },
+        { onConflict: "user_id,snapshot_date" },
+      );
     }),
   );
 

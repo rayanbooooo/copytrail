@@ -87,6 +87,22 @@ export interface LeaderCopierCountRow {
   active_copier_count: number;
 }
 
+export interface WatchlistItemRow {
+  id: string;
+  user_id: string;
+  symbol: string;
+  created_at: string;
+}
+
+export interface WalletSnapshotRow {
+  id: string;
+  user_id: string;
+  snapshot_date: string;
+  cash_balance: number;
+  portfolio_value: number;
+  created_at: string;
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -104,6 +120,16 @@ export interface Database {
         Row: WebhookEventRow;
         Insert: Partial<WebhookEventRow>;
         Update: Partial<WebhookEventRow>;
+      };
+      watchlist_items: {
+        Row: WatchlistItemRow;
+        Insert: Partial<WatchlistItemRow>;
+        Update: Partial<WatchlistItemRow>;
+      };
+      wallet_snapshots: {
+        Row: WalletSnapshotRow;
+        Insert: Partial<WalletSnapshotRow>;
+        Update: Partial<WalletSnapshotRow>;
       };
     };
     Views: {

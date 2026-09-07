@@ -63,6 +63,7 @@ export interface Bar {
   high: number;
   low: number;
   close: number;
+  volume: number;
 }
 
 const TIMEFRAME_TO_ALPACA: Record<string, { timeframe: string; days: number }> = {
@@ -97,7 +98,9 @@ export async function fetchHistoricalBars(symbol: string, uiTimeframe: string): 
   if (!response.ok) return [];
 
   const body = await response.json();
-  const bars = body?.bars as Array<{ t: string; o: number; h: number; l: number; c: number }> | undefined;
+  const bars = body?.bars as
+    | Array<{ t: string; o: number; h: number; l: number; c: number; v: number }>
+    | undefined;
   if (!bars) return [];
 
   return bars.map((bar) => ({
@@ -106,5 +109,6 @@ export async function fetchHistoricalBars(symbol: string, uiTimeframe: string): 
     high: bar.h,
     low: bar.l,
     close: bar.c,
+    volume: bar.v,
   }));
 }
