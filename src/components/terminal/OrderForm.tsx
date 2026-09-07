@@ -97,7 +97,7 @@ export function OrderForm({ symbol, buyingPower, price, initialSide = "buy" }: O
           </>
         )}
 
-        <div className="flex items-center justify-between rounded border border-hairline-soft bg-black/20 px-3 py-2 text-[11.5px] text-ink-muted">
+        <div className="flex items-center justify-between rounded-lg bg-white/[0.04] px-3 py-2 text-[11.5px] text-ink-muted">
           <span>Platform commission</span>
           <span className="font-mono tabular-nums text-ink">$1.00</span>
         </div>

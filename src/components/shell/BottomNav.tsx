@@ -22,27 +22,22 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="safe-bottom sticky bottom-0 z-30 border-t border-white/[0.06] bg-[#090A0F]/90 backdrop-blur-xl2 lg:hidden">
-      <div className="mx-auto flex max-w-lg items-stretch justify-around px-1 py-1.5">
+    <nav className="safe-bottom sticky bottom-0 z-30 border-t border-white/[0.06] bg-black/90 backdrop-blur-xl2 lg:hidden">
+      <div className="mx-auto flex max-w-lg items-center justify-around px-2 py-2.5">
         {items.map(({ href, label, icon: Icon, matchPrefix }) => {
           const active = matchPrefix ? pathname.startsWith(matchPrefix) : pathname === href;
           return (
-            <Link
-              key={href}
-              href={href}
-              className="flex flex-1 flex-col items-center gap-1 rounded-xl py-2 active:scale-[0.96] transition-transform"
-            >
-              <Icon
-                className={cn("h-[21px] w-[21px]", active ? "text-emerald-signal" : "text-ink-faint")}
-                strokeWidth={active ? 2.2 : 1.8}
-              />
+            <Link key={href} href={href} aria-label={label} className="active:scale-[0.94] transition-transform">
               <span
                 className={cn(
-                  "text-[10px] font-medium",
-                  active ? "text-emerald-signal" : "text-ink-faint",
+                  "flex h-10 w-10 items-center justify-center rounded-full",
+                  active && "bg-emerald-signal/15",
                 )}
               >
-                {label}
+                <Icon
+                  className={cn("h-[21px] w-[21px]", active ? "text-emerald-signal" : "text-ink-faint")}
+                  strokeWidth={active ? 2.2 : 1.8}
+                />
               </span>
             </Link>
           );

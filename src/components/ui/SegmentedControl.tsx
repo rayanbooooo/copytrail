@@ -10,6 +10,12 @@ interface SegmentedControlProps<T extends string> {
   className?: string;
 }
 
+/**
+ * Boxed segmented control: a dark track holding a sliding solid-fill active
+ * pill — used for binary/ternary action toggles (Buy/Sell, Market/Limit,
+ * risk level). Distinct from TimeframePills (minimal text-only) and
+ * FilterChips (independent solid pills, no shared track).
+ */
 export function SegmentedControl<T extends string>({
   options,
   value,
@@ -18,7 +24,7 @@ export function SegmentedControl<T extends string>({
 }: SegmentedControlProps<T>) {
   return (
     <div
-      className={cn("inline-flex items-center gap-1", className)}
+      className={cn("inline-flex items-center gap-0.5 rounded-full bg-white/[0.06] p-1", className)}
       role="tablist"
     >
       {options.map((option) => {
@@ -30,14 +36,14 @@ export function SegmentedControl<T extends string>({
             aria-selected={active}
             onClick={() => onChange(option)}
             className={cn(
-              "relative flex-1 rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
+              "relative flex-1 rounded-full px-2.5 py-1.5 text-[12.5px] font-medium transition-colors",
               active ? "text-[#03130C]" : "text-ink-faint hover:text-ink-muted",
             )}
           >
             {active && (
               <motion.span
                 layoutId={`segmented-control-active-${options.join("-")}`}
-                className="absolute inset-0 rounded-lg bg-emerald-signal"
+                className="absolute inset-0 rounded-full bg-emerald-signal"
                 transition={{ type: "spring", stiffness: 500, damping: 40 }}
               />
             )}

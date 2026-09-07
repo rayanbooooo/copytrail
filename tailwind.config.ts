@@ -7,17 +7,17 @@ const config: Config = {
     extend: {
       colors: {
         base: {
-          DEFAULT: "#090A0F",
-          raised: "#0D0F16",
+          DEFAULT: "#000000",
+          raised: "#0A0B0D",
         },
         surface: {
-          DEFAULT: "#12141C",
-          hover: "#161923",
+          DEFAULT: "#101114",
+          hover: "#17191E",
         },
-        hairline: "rgba(255,255,255,0.08)",
-        "hairline-soft": "rgba(255,255,255,0.04)",
+        hairline: "rgba(255,255,255,0.07)",
+        "hairline-soft": "rgba(255,255,255,0.035)",
         emerald: {
-          signal: "#34D399",
+          signal: "#19E38C",
           deep: "#059669",
         },
         rose: {

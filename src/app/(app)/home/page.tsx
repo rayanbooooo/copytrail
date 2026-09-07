@@ -4,6 +4,7 @@ import { PortfolioHeroCard } from "@/components/home/PortfolioHeroCard";
 import { QuickActions } from "@/components/home/QuickActions";
 import { HoldingsList } from "@/components/home/HoldingsList";
 import { RecentActivity } from "@/components/home/RecentActivity";
+import { NotificationsButton } from "@/components/home/NotificationsButton";
 
 function greeting() {
   const hour = new Date().getHours();
@@ -31,9 +32,12 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-6">
-      <p className="text-[13px] text-ink-muted lg:text-[15px]">
-        {greeting()}, <span className="font-medium text-ink capitalize">{firstName}</span>
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="text-[19px] font-semibold tracking-tight text-ink lg:text-[22px]">
+          {greeting()}, <span className="capitalize">{firstName}</span>
+        </p>
+        <NotificationsButton trades={trades} />
+      </div>
 
       <div className="lg:grid lg:grid-cols-[1.4fr_1fr] lg:gap-6 lg:space-y-0">
         <div className="space-y-6">

@@ -14,10 +14,12 @@ const PRESETS = [250, 500, 1000, 2500];
 export function CopySetupForm({
   leaderId,
   leaderName,
+  buyingPower,
   initialAllocation,
 }: {
   leaderId: string;
   leaderName: string;
+  buyingPower: number;
   initialAllocation?: number;
 }) {
   const router = useRouter();
@@ -29,9 +31,18 @@ export function CopySetupForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.success]);
 
+  const numericAllocation = Number(allocation) || 0;
+  const sliderMax = Math.max(buyingPower, numericAllocation, 100);
+  const percentOfBuyingPower = buyingPower ? Math.min(100, (numericAllocation / buyingPower) * 100) : 0;
+
   return (
     <Card>
-      <p className="mb-1.5 text-[13px] font-medium text-ink-muted">Allocation</p>
+      <div className="mb-1 flex items-baseline justify-between">
+        <p className="text-[13px] font-medium text-ink-muted">Allocation</p>
+        <p className="font-mono text-[15px] font-semibold tabular-nums text-ink">
+          {allocation ? formatCurrency(numericAllocation) : "—"}
+        </p>
+      </div>
       <p className="mb-4 text-[12px] leading-relaxed text-ink-faint">
         The dollar amount you commit to mirroring {leaderName}&apos;s trades. Each of their orders is
         sized proportionally against this allocation — a trade that moves 5% of their equity moves
@@ -41,7 +52,26 @@ export function CopySetupForm({
       <form action={formAction} className="space-y-4">
         <input type="hidden" name="leaderId" value={leaderId} />
 
-        <CurrencyInput name="allocationAmount" value={allocation} onValueChange={setAllocation} autoFocus />
+        <div>
+          <input
+            type="range"
+            min={0}
+            max={sliderMax}
+            step={10}
+            value={numericAllocation}
+            onChange={(e) => setAllocation(e.target.value)}
+            className="w-full accent-emerald-signal"
+          />
+          <div className="mt-1 flex justify-between text-[11px] text-ink-faint">
+            <span>{formatCurrency(0)}</span>
+            <span>
+              {buyingPower > 0 ? `${percentOfBuyingPower.toFixed(0)}% of buying power` : "No buying power available"}
+            </span>
+            <span>{formatCurrency(sliderMax)}</span>
+          </div>
+        </div>
+
+        <CurrencyInput name="allocationAmount" value={allocation} onValueChange={setAllocation} />
 
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((preset) => (
@@ -49,7 +79,7 @@ export function CopySetupForm({
               key={preset}
               type="button"
               onClick={() => setAllocation(String(preset))}
-              className="rounded-full border border-hairline px-3 py-1.5 text-[12px] font-medium text-ink-muted hover:border-white/20 hover:text-ink"
+              className="rounded-full bg-white/[0.06] px-3 py-1.5 text-[12px] font-medium text-ink-muted hover:bg-white/[0.09] hover:text-ink"
             >
               {formatCurrency(preset)}
             </button>
@@ -71,9 +101,10 @@ export function CopySetupForm({
 
         {state.error && <p className="text-sm text-rose-signal">{state.error}</p>}
 
-        <Button type="submit" fullWidth disabled={pending || !allocation}>
+        <Button type="submit" fullWidth size="lg" className="rounded-full" disabled={pending || !allocation}>
           {pending ? "Confirming…" : initialAllocation ? "Update allocation" : "Start copying"}
         </Button>
+        <p className="text-center text-[11.5px] text-ink-faint">You can stop anytime.</p>
       </form>
     </Card>
   );

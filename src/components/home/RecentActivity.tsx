@@ -20,11 +20,13 @@ export function RecentActivity({ trades }: { trades: TradeRow[] }) {
           {i > 0 && <CardDivider />}
           <div className="flex items-center justify-between px-3 py-2.5">
             <div className="flex items-center gap-2.5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-hairline bg-black/20">
+              <span
+                className={`flex h-9 w-9 items-center justify-center rounded-full ${trade.side === "buy" ? "bg-emerald-signal/15" : "bg-rose-signal/15"}`}
+              >
                 {trade.side === "buy" ? (
-                  <ArrowDownLeft className="h-3.5 w-3.5 text-emerald-signal" />
+                  <ArrowDownLeft className="h-4 w-4 text-emerald-signal" />
                 ) : (
-                  <ArrowUpRight className="h-3.5 w-3.5 text-rose-signal" />
+                  <ArrowUpRight className="h-4 w-4 text-rose-signal" />
                 )}
               </span>
               <div>

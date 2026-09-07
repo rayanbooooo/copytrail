@@ -164,6 +164,15 @@ export async function getTradesForSymbol(supabase: Client, userId: string, symbo
   return data ?? [];
 }
 
+export async function getLeaderTradeCount(supabase: Client, profileId: string): Promise<number> {
+  const { count } = await supabase
+    .from("trades")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", profileId)
+    .eq("source", "self");
+  return count ?? 0;
+}
+
 export async function getLeaderById(supabase: Client, leaderId: string) {
   const { data } = await supabase
     .from("leaders")

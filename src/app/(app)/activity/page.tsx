@@ -14,7 +14,7 @@ export default async function ActivityPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-[17px] font-semibold tracking-tight text-ink">Activity</h1>
+      <h1 className="text-[19px] font-semibold tracking-tight text-ink">Activity</h1>
       <ActivityList trades={trades} />
     </div>
   );

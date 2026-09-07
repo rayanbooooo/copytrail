@@ -25,7 +25,7 @@ export function BottomSheet({ open, onClose, title, subtitle, children }: Bottom
           onClick={onClose}
         >
           <motion.div
-            className="max-h-[88vh] w-full max-w-sm overflow-y-auto rounded-t-xl border border-hairline bg-surface p-4 sm:rounded-xl"
+            className="max-h-[88vh] w-full max-w-sm overflow-y-auto rounded-t-xl2 bg-surface p-4 sm:rounded-xl2"
             variants={slideUpModal}
             onClick={(e) => e.stopPropagation()}
           >

@@ -20,7 +20,7 @@ export function Sidebar({ userEmail }: { userEmail?: string }) {
       <Link href="/home" className="mb-8 flex items-center gap-2.5 px-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.1] bg-gradient-to-br from-emerald-signal/25 to-transparent">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M1 9.5L5 5.5L8 8.5L13 2" stroke="#34D399" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M1 9.5L5 5.5L8 8.5L13 2" stroke="#19E38C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
         <span className="text-[15px] font-semibold tracking-tight text-ink">CopyTrail</span>

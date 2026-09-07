@@ -72,6 +72,7 @@ const TIMEFRAME_TO_ALPACA: Record<string, { timeframe: string; days: number }> =
   "1M": { timeframe: "1Day", days: 30 },
   "3M": { timeframe: "1Day", days: 90 },
   "1Y": { timeframe: "1Day", days: 365 },
+  "5Y": { timeframe: "1Week", days: 1825 },
 };
 
 export async function fetchHistoricalBars(symbol: string, uiTimeframe: string): Promise<Bar[]> {

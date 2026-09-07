@@ -11,10 +11,13 @@ interface ChartWrapperProps {
   timeframe: Timeframe;
 }
 
+const UP = { line: "#19E38C", top: "rgba(25,227,140,0.32)", bottom: "rgba(25,227,140,0)" };
+const DOWN = { line: "#FB7185", top: "rgba(251,113,133,0.32)", bottom: "rgba(251,113,133,0)" };
+
 export function ChartWrapper({ symbol, timeframe }: ChartWrapperProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
-  const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
+  const seriesRef = useRef<ISeriesApi<"Area"> | null>(null);
   const [state, setState] = useState<"loading" | "empty" | "unconfigured" | "ready">("loading");
 
   useEffect(() => {
@@ -27,31 +30,30 @@ export function ChartWrapper({ symbol, timeframe }: ChartWrapperProps) {
 
       const chart = createChart(containerRef.current, {
         layout: {
-          background: { type: ColorType.Solid, color: "#090A0F" },
+          background: { type: ColorType.Solid, color: "#000000" },
           textColor: "#9CA1AF",
           fontFamily: "IBM Plex Mono, ui-monospace, monospace",
         },
         grid: {
-          vertLines: { color: "rgba(255,255,255,0.03)" },
-          horzLines: { color: "rgba(255,255,255,0.03)" },
+          vertLines: { visible: false },
+          horzLines: { color: "rgba(255,255,255,0.04)" },
         },
         crosshair: {
-          vertLine: { color: "rgba(255,255,255,0.15)", labelBackgroundColor: "#12141C" },
-          horzLine: { color: "rgba(255,255,255,0.15)", labelBackgroundColor: "#12141C" },
+          vertLine: { color: "rgba(255,255,255,0.15)", labelBackgroundColor: "#101114" },
+          horzLine: { color: "rgba(255,255,255,0.15)", labelBackgroundColor: "#101114" },
         },
-        rightPriceScale: { borderColor: "rgba(255,255,255,0.06)" },
-        timeScale: { borderColor: "rgba(255,255,255,0.06)" },
+        rightPriceScale: { borderVisible: false },
+        timeScale: { borderVisible: false },
         autoSize: true,
       });
 
-      // v4 API: series are created via type-specific factory methods
-      // (addCandlestickSeries), not the v5 generic addSeries(SeriesType, ...).
-      const series = chart.addCandlestickSeries({
-        upColor: "#34D399",
-        downColor: "#FB7185",
-        borderVisible: false,
-        wickUpColor: "#34D399",
-        wickDownColor: "#FB7185",
+      const series = chart.addAreaSeries({
+        lineColor: UP.line,
+        topColor: UP.top,
+        bottomColor: UP.bottom,
+        lineWidth: 2,
+        priceLineVisible: false,
+        lastValueVisible: false,
       });
 
       chartRef.current = chart;
@@ -81,12 +83,16 @@ export function ChartWrapper({ symbol, timeframe }: ChartWrapperProps) {
         setState("unconfigured");
         return;
       }
-      if (!body.bars || body.bars.length === 0) {
+      const bars: Array<{ time: number; close: number }> = body.bars ?? [];
+      if (!bars || bars.length === 0) {
         setState("empty");
         return;
       }
 
-      seriesRef.current?.setData(body.bars);
+      const positive = bars[bars.length - 1]!.close >= bars[0]!.close;
+      const palette = positive ? UP : DOWN;
+      seriesRef.current?.applyOptions({ lineColor: palette.line, topColor: palette.top, bottomColor: palette.bottom });
+      seriesRef.current?.setData(bars.map((bar) => ({ time: bar.time, value: bar.close })) as any);
       chartRef.current?.timeScale().fitContent();
       setState("ready");
     }
@@ -98,15 +104,15 @@ export function ChartWrapper({ symbol, timeframe }: ChartWrapperProps) {
   }, [symbol, timeframe]);
 
   return (
-    <div className="relative h-[320px] w-full overflow-hidden rounded-xl border border-hairline bg-base lg:h-[420px]">
+    <div className="relative h-[280px] w-full overflow-hidden rounded-xl2 bg-black lg:h-[400px]">
       <div ref={containerRef} className="h-full w-full" />
       {state === "loading" && (
-        <div className="absolute inset-0 flex items-center justify-center bg-base">
-          <Skeleton className="h-[220px] w-[92%]" />
+        <div className="absolute inset-0 flex items-center justify-center bg-black">
+          <Skeleton className="h-[180px] w-[92%]" />
         </div>
       )}
       {state === "unconfigured" && (
-        <div className="absolute inset-0 flex items-center justify-center bg-base p-6">
+        <div className="absolute inset-0 flex items-center justify-center bg-black p-6">
           <ConfigMissingBanner
             service="Alpaca Market Data"
             detail="Add ALPACA_MARKET_DATA_API_KEY_ID/SECRET to stream live charts."
@@ -114,7 +120,7 @@ export function ChartWrapper({ symbol, timeframe }: ChartWrapperProps) {
         </div>
       )}
       {state === "empty" && (
-        <div className="absolute inset-0 flex items-center justify-center bg-base">
+        <div className="absolute inset-0 flex items-center justify-center bg-black">
           <p className="text-sm text-ink-faint">No bar data for {symbol} yet.</p>
         </div>
       )}

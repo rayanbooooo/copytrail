@@ -36,7 +36,7 @@ export function CopyEngineStatusBox({ following, nextBillingDate }: CopyEngineSt
   }
 
   return (
-    <Card className="border-emerald-500/20">
+    <Card>
       <div className="flex items-center justify-between">
         <h3 className="text-[15px] font-semibold text-ink">Copy-trading engine</h3>
         <Pill tone="emerald" className="gap-1.5">
@@ -45,7 +45,7 @@ export function CopyEngineStatusBox({ following, nextBillingDate }: CopyEngineSt
         </Pill>
       </div>
 
-      <div className="mt-4 flex items-center justify-between rounded-xl border border-hairline-soft bg-black/20 px-4 py-3">
+      <div className="mt-4 flex items-center justify-between rounded-xl bg-white/[0.04] px-4 py-3">
         <Stat label="Mirroring" value={following.leaderName} />
         <Stat label="Allocation" value={formatCurrency(following.allocationAmount)} align="center" />
       </div>

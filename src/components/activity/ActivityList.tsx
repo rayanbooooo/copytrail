@@ -2,9 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
-import { SegmentedControl } from "@/components/ui/SegmentedControl";
+import { FilterChips } from "@/components/ui/FilterChip";
 import { Card, CardDivider } from "@/components/ui/Card";
-import { Pill } from "@/components/ui/Pill";
 import { formatCurrency, formatQty } from "@/lib/utils/formatting";
 import type { TradeRow } from "@/types/database";
 
@@ -20,7 +19,7 @@ export function ActivityList({ trades }: { trades: TradeRow[] }) {
 
   return (
     <div className="space-y-4">
-      <SegmentedControl options={TABS} value={tab} onChange={setTab} />
+      <FilterChips options={TABS} value={tab} onChange={setTab} />
 
       <Card className="p-0">
         {filtered.length === 0 ? (
@@ -31,7 +30,9 @@ export function ActivityList({ trades }: { trades: TradeRow[] }) {
               {i > 0 && <CardDivider />}
               <div className="flex items-center justify-between px-5 py-4">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-hairline bg-black/20">
+                  <span
+                    className={`flex h-9 w-9 items-center justify-center rounded-full ${trade.side === "buy" ? "bg-emerald-signal/15" : "bg-rose-signal/15"}`}
+                  >
                     {trade.side === "buy" ? (
                       <ArrowDownLeft className="h-4 w-4 text-emerald-signal" />
                     ) : (
@@ -51,9 +52,9 @@ export function ActivityList({ trades }: { trades: TradeRow[] }) {
                   <p className="font-mono text-[14px] font-medium text-ink">
                     {trade.execution_price ? formatCurrency(trade.execution_price * trade.qty) : "—"}
                   </p>
-                  <Pill tone={trade.execution_price ? "emerald" : "amber"} className="mt-0.5">
+                  <p className={`text-[11.5px] font-medium ${trade.execution_price ? "text-emerald-signal" : "text-amber-400"}`}>
                     {trade.execution_price ? "Filled" : "Pending"}
-                  </Pill>
+                  </p>
                 </div>
               </div>
             </div>

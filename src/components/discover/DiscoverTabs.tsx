@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { SegmentedControl } from "@/components/ui/SegmentedControl";
-import { Card, CardDivider } from "@/components/ui/Card";
+import { FilterChips } from "@/components/ui/FilterChip";
 import { DiscoverLeaderRow } from "@/components/discover/DiscoverLeaderRow";
 import type { LeaderCardData } from "@/types/domain";
 
@@ -25,22 +24,22 @@ export function DiscoverTabs({
 
   return (
     <div className="space-y-4">
-      <SegmentedControl options={TABS} value={tab} onChange={setTab} className="w-full" />
+      <FilterChips options={TABS} value={tab} onChange={setTab} />
 
-      <Card className="p-0">
+      <div>
+        <h2 className="mb-1 text-[13px] font-semibold text-ink">Top Performers</h2>
         {sorted.length === 0 ? (
-          <p className="px-5 py-6 text-center text-[13px] text-ink-muted">
+          <p className="px-1 py-6 text-center text-[13px] text-ink-muted">
             {tab === "Following" ? "You're not copying anyone yet." : "No leaders yet — check back soon."}
           </p>
         ) : (
-          sorted.map((leader, i) => (
-            <div key={leader.id}>
-              {i > 0 && <CardDivider />}
-              <DiscoverLeaderRow leader={leader} isFollowing={followedLeaderIds.has(leader.id)} />
-            </div>
-          ))
+          <div className="divide-y divide-hairline-soft">
+            {sorted.map((leader) => (
+              <DiscoverLeaderRow key={leader.id} leader={leader} isFollowing={followedLeaderIds.has(leader.id)} />
+            ))}
+          </div>
         )}
-      </Card>
+      </div>
     </div>
   );
 }

@@ -1,10 +1,9 @@
+import { CheckCircle2 } from "lucide-react";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 import { getActiveFollowing, getProfile, getSubscription, getWallet } from "@/lib/db/queries";
 import { listAchRelationships } from "@/lib/alpaca/funding";
 import { isAlpacaConfigured, isPlaidConfigured, isStripeConfigured } from "@/lib/config/env";
 import { Avatar } from "@/components/ui/Avatar";
-import { Pill } from "@/components/ui/Pill";
 import { AccountMenu } from "@/components/account/AccountMenu";
 import { PortfolioBalanceCard } from "@/components/wallet/PortfolioBalanceCard";
 import { CopyEngineStatusBox } from "@/components/wallet/CopyEngineStatusBox";
@@ -33,46 +32,58 @@ export default async function AccountPage() {
     relationships = await listAchRelationships(profile.alpaca_account_id).catch(() => []);
   }
 
+  const verified = profile?.kyc_status === "approved";
+
   return (
-    <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
-      <div className="space-y-6">
-        <div className="flex items-center gap-3">
-          <Avatar name={user.email ?? "You"} size={52} />
-          <div>
-            <p className="text-[15px] font-semibold text-ink">{user.email}</p>
-            <Pill tone="neutral">Verified account</Pill>
+    <div className="space-y-6">
+      <h1 className="text-[19px] font-semibold tracking-tight text-ink">Account</h1>
+
+      <div className="lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <Avatar name={user.email ?? "You"} size={56} />
+            <div>
+              <p className="text-[15px] font-semibold text-ink">{user.email}</p>
+              {verified ? (
+                <p className="mt-0.5 flex items-center gap-1 text-[12.5px] font-medium text-emerald-signal">
+                  <CheckCircle2 className="h-3.5 w-3.5" /> Verified account
+                </p>
+              ) : (
+                <p className="mt-0.5 text-[12.5px] font-medium text-amber-400">Verification pending</p>
+              )}
+            </div>
           </div>
+
+          <AccountMenu kycStatus={profile?.kyc_status ?? "pending"} />
+
+          <CopyEngineStatusBox
+            following={
+              following
+                ? { leaderName: following.leaderDisplayName, allocationAmount: following.allocation_amount }
+                : null
+            }
+            nextBillingDate={subscription?.next_billing_date ?? null}
+          />
+
+          <SubscriptionCard
+            status={subscription?.status ?? null}
+            nextBillingDate={subscription?.next_billing_date ?? null}
+            configured={isStripeConfigured()}
+          />
         </div>
 
-        <AccountMenu kycStatus={profile?.kyc_status ?? "pending"} />
+        <div className="mt-6 space-y-6 lg:mt-0">
+          <PortfolioBalanceCard
+            cashBalance={wallet?.cash_balance ?? 0}
+            portfolioValue={wallet?.portfolio_value ?? 0}
+          />
 
-        <CopyEngineStatusBox
-          following={
-            following
-              ? { leaderName: following.leaderDisplayName, allocationAmount: following.allocation_amount }
-              : null
-          }
-          nextBillingDate={subscription?.next_billing_date ?? null}
-        />
-
-        <SubscriptionCard
-          status={subscription?.status ?? null}
-          nextBillingDate={subscription?.next_billing_date ?? null}
-          configured={isStripeConfigured()}
-        />
-      </div>
-
-      <div className="space-y-6">
-        <PortfolioBalanceCard
-          cashBalance={wallet?.cash_balance ?? 0}
-          portfolioValue={wallet?.portfolio_value ?? 0}
-        />
-
-        <div>
-          <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
-            Linked accounts
-          </h2>
-          <LinkedBanksModule relationships={relationships} configured={bankLinkConfigured} />
+          <div>
+            <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
+              Linked accounts
+            </h2>
+            <LinkedBanksModule relationships={relationships} configured={bankLinkConfigured} />
+          </div>
         </div>
       </div>
     </div>

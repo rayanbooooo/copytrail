@@ -1,9 +1,9 @@
 import Link from "next/link";
+import { Plus } from "lucide-react";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getWatchlist } from "@/lib/db/queries";
 import { getSymbolMeta } from "@/lib/data/symbols";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
 import { WatchlistRow } from "@/components/watchlist/WatchlistRow";
 
 export default async function WatchlistPage() {
@@ -19,7 +19,14 @@ export default async function WatchlistPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-[17px] font-semibold tracking-tight text-ink">Watchlist</h1>
+        <h1 className="text-[19px] font-semibold tracking-tight text-ink">Watchlist</h1>
+        <Link
+          href="/markets"
+          aria-label="Add asset"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.06] text-ink active:scale-90 transition-transform"
+        >
+          <Plus className="h-[18px] w-[18px]" strokeWidth={1.8} />
+        </Link>
       </div>
 
       {items.length === 0 ? (
@@ -29,17 +36,19 @@ export default async function WatchlistPage() {
           </p>
         </Card>
       ) : (
-        <div className="rounded-xl border border-hairline">
+        <div className="divide-y divide-hairline-soft">
           {items.map((item) => (
             <WatchlistRow key={item.id} meta={getSymbolMeta(item.symbol)} />
           ))}
         </div>
       )}
 
-      <Link href="/markets">
-        <Button fullWidth variant="outline">
-          Add asset
-        </Button>
+      <Link
+        href="/markets"
+        className="flex items-center justify-center gap-1.5 rounded-full bg-white/[0.06] py-3 text-[13px] font-medium text-ink-muted hover:text-ink"
+      >
+        <Plus className="h-4 w-4" />
+        Add asset
       </Link>
     </div>
   );

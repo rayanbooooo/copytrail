@@ -35,7 +35,7 @@ export function LinkedBanksModule({ relationships, configured }: LinkedBanksModu
           {i > 0 && <CardDivider />}
           <div className="flex items-center justify-between px-5 py-4">
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-hairline bg-black/20">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.06]">
                 <Landmark className="h-4 w-4 text-ink-muted" />
               </span>
               <div>
