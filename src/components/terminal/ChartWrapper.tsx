@@ -98,7 +98,7 @@ export function ChartWrapper({ symbol, timeframe }: ChartWrapperProps) {
   }, [symbol, timeframe]);
 
   return (
-    <div className="relative h-[320px] w-full overflow-hidden rounded-lg border border-hairline bg-base lg:h-[420px]">
+    <div className="relative h-[320px] w-full overflow-hidden rounded-xl border border-hairline bg-base lg:h-[420px]">
       <div ref={containerRef} className="h-full w-full" />
       {state === "loading" && (
         <div className="absolute inset-0 flex items-center justify-center bg-base">

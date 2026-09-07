@@ -27,18 +27,34 @@ export const followAllocationSchema = z.object({
 });
 export type FollowAllocationInput = z.infer<typeof followAllocationSchema>;
 
-export const orderSchema = z.object({
-  symbol: z
-    .string()
-    .trim()
-    .toUpperCase()
-    .min(1, "Symbol is required")
-    .max(10),
-  side: z.enum(["buy", "sell"]),
-  orderType: z.enum(["market", "limit"]).default("market"),
-  notionalAmount: z.coerce.number().positive("Enter an amount greater than $0"),
-  limitPrice: z.coerce.number().positive().optional(),
-});
+export const orderSchema = z
+  .object({
+    symbol: z
+      .string()
+      .trim()
+      .toUpperCase()
+      .min(1, "Symbol is required")
+      .max(10),
+    side: z.enum(["buy", "sell"]),
+    orderType: z.enum(["market", "limit"]).default("market"),
+    // Market orders are dollar-denominated (Alpaca "notional"); limit orders
+    // are share-denominated (Alpaca requires qty, not notional, for limit
+    // orders) with an explicit limit price.
+    notionalAmount: z.coerce.number().positive("Enter an amount greater than $0").optional(),
+    qty: z.coerce.number().positive("Enter a quantity greater than 0").optional(),
+    limitPrice: z.coerce.number().positive("Enter a valid limit price").optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.orderType === "market" && !data.notionalAmount) {
+      ctx.addIssue({ code: "custom", path: ["notionalAmount"], message: "Enter an amount greater than $0" });
+    }
+    if (data.orderType === "limit" && !data.qty) {
+      ctx.addIssue({ code: "custom", path: ["qty"], message: "Enter a quantity greater than 0" });
+    }
+    if (data.orderType === "limit" && !data.limitPrice) {
+      ctx.addIssue({ code: "custom", path: ["limitPrice"], message: "Enter a limit price" });
+    }
+  });
 export type OrderInput = z.infer<typeof orderSchema>;
 
 export const kycOnboardingSchema = z.object({

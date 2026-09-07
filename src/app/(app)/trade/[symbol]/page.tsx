@@ -1,5 +1,5 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { getWallet } from "@/lib/db/queries";
+import { getTradesForSymbol, getWallet } from "@/lib/db/queries";
 import { getSymbolMeta } from "@/lib/data/symbols";
 import { AssetHeader } from "@/components/terminal/AssetHeader";
 import { TerminalBody } from "@/components/terminal/TerminalBody";
@@ -17,7 +17,7 @@ export default async function TradeTerminalPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  const [wallet, watchlistRow] = await Promise.all([
+  const [wallet, watchlistRow, symbolTrades] = await Promise.all([
     user ? getWallet(supabase, user.id) : Promise.resolve(null),
     user
       ? supabase
@@ -27,12 +27,13 @@ export default async function TradeTerminalPage({
           .eq("symbol", meta.symbol)
           .maybeSingle()
       : Promise.resolve({ data: null }),
+    user ? getTradesForSymbol(supabase, user.id, meta.symbol, 10) : Promise.resolve([]),
   ]);
 
   return (
     <div className="space-y-3">
       <AssetHeader meta={meta} initiallyWatched={Boolean(watchlistRow.data)} />
-      <TerminalBody meta={meta} buyingPower={wallet?.cash_balance ?? 0} />
+      <TerminalBody meta={meta} buyingPower={wallet?.cash_balance ?? 0} symbolTrades={symbolTrades} />
     </div>
   );
 }

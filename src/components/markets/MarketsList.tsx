@@ -48,7 +48,7 @@ export function MarketsList({ marketDataConfigured }: { marketDataConfigured: bo
         />
       )}
 
-      <div className="rounded-lg border border-hairline">
+      <div className="rounded-xl border border-hairline">
         <div className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-hairline px-3 py-2 text-[10.5px] font-semibold uppercase tracking-wide text-ink-faint">
           <span>Asset</span>
           <span className="hidden sm:block">Chart</span>

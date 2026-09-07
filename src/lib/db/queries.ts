@@ -153,6 +153,17 @@ export async function getWalletSnapshots(supabase: Client, userId: string, days 
   return data ?? [];
 }
 
+export async function getTradesForSymbol(supabase: Client, userId: string, symbol: string, limit = 10) {
+  const { data } = await supabase
+    .from("trades")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("symbol", symbol)
+    .order("executed_at", { ascending: false })
+    .limit(limit);
+  return data ?? [];
+}
+
 export async function getLeaderById(supabase: Client, leaderId: string) {
   const { data } = await supabase
     .from("leaders")

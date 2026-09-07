@@ -2,9 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { History, Star } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { navItems } from "@/components/shell/BottomNav";
 import { Avatar } from "@/components/ui/Avatar";
+
+const secondaryItems = [
+  { href: "/watchlist", label: "Watchlist", icon: Star },
+  { href: "/activity", label: "Activity", icon: History },
+] as const;
 
 export function Sidebar({ userEmail }: { userEmail?: string }) {
   const pathname = usePathname();
@@ -20,7 +26,7 @@ export function Sidebar({ userEmail }: { userEmail?: string }) {
         <span className="text-[15px] font-semibold tracking-tight text-ink">CopyTrail</span>
       </Link>
 
-      <nav className="flex flex-1 flex-col gap-1">
+      <nav className="flex flex-col gap-1">
         {navItems.map(({ href, label, icon: Icon, matchPrefix }) => {
           const active = matchPrefix ? pathname.startsWith(matchPrefix) : pathname === href;
           return (
@@ -33,6 +39,27 @@ export function Sidebar({ userEmail }: { userEmail?: string }) {
               )}
             >
               <Icon className="h-[18px] w-[18px]" strokeWidth={active ? 2.2 : 1.8} />
+              {label}
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div className="my-4 h-px bg-hairline-soft" />
+
+      <nav className="flex flex-1 flex-col gap-1">
+        {secondaryItems.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={cn(
+                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium transition-colors",
+                active ? "text-ink" : "text-ink-faint hover:text-ink-muted",
+              )}
+            >
+              <Icon className="h-4 w-4" strokeWidth={1.8} />
               {label}
             </Link>
           );

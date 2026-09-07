@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/Card";
-import { getSymbolMeta } from "@/lib/data/symbols";
+import { getSymbolAccent, getSymbolMeta } from "@/lib/data/symbols";
 import { formatQty } from "@/lib/utils/formatting";
+import { cn } from "@/lib/utils/cn";
 import type { HoldingSummary } from "@/lib/db/queries";
 
 export function HoldingsList({ holdings }: { holdings: HoldingSummary[] }) {
@@ -23,7 +24,12 @@ export function HoldingsList({ holdings }: { holdings: HoldingSummary[] }) {
           <Link key={holding.symbol} href={`/trade/${holding.symbol}`} className="block hover:bg-white/[0.02]">
             <div className={`flex items-center justify-between px-3 py-2.5 ${i > 0 ? "border-t border-hairline-soft" : ""}`}>
               <div className="flex items-center gap-2.5">
-                <span className="flex h-7 w-7 items-center justify-center rounded border border-hairline bg-black/30 text-[9.5px] font-semibold text-ink-muted">
+                <span
+                  className={cn(
+                    "flex h-8 w-8 items-center justify-center rounded-lg text-[9.5px] font-semibold",
+                    getSymbolAccent(holding.symbol),
+                  )}
+                >
                   {holding.symbol.slice(0, 4)}
                 </span>
                 <div>

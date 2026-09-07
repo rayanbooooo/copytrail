@@ -29,7 +29,7 @@ export default async function WatchlistPage() {
           </p>
         </Card>
       ) : (
-        <div className="rounded-lg border border-hairline">
+        <div className="rounded-xl border border-hairline">
           {items.map((item) => (
             <WatchlistRow key={item.id} meta={getSymbolMeta(item.symbol)} />
           ))}

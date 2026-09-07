@@ -18,10 +18,7 @@ export function SegmentedControl<T extends string>({
 }: SegmentedControlProps<T>) {
   return (
     <div
-      className={cn(
-        "inline-flex items-center gap-0.5 rounded-md border border-hairline bg-surface p-0.5",
-        className,
-      )}
+      className={cn("inline-flex items-center gap-1", className)}
       role="tablist"
     >
       {options.map((option) => {
@@ -33,14 +30,14 @@ export function SegmentedControl<T extends string>({
             aria-selected={active}
             onClick={() => onChange(option)}
             className={cn(
-              "relative flex-1 rounded px-2.5 py-1.5 text-[12px] font-medium transition-colors",
-              active ? "text-[#03130C]" : "text-ink-muted hover:text-ink",
+              "relative flex-1 rounded-lg px-2.5 py-1.5 text-[12px] font-medium transition-colors",
+              active ? "text-[#03130C]" : "text-ink-faint hover:text-ink-muted",
             )}
           >
             {active && (
               <motion.span
-                layoutId="segmented-control-active"
-                className="absolute inset-0 rounded bg-emerald-signal"
+                layoutId={`segmented-control-active-${options.join("-")}`}
+                className="absolute inset-0 rounded-lg bg-emerald-signal"
                 transition={{ type: "spring", stiffness: 500, damping: 40 }}
               />
             )}

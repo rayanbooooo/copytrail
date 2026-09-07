@@ -34,7 +34,7 @@ export function AssetHeader({ meta, initiallyWatched }: { meta: SymbolMeta; init
   }, [meta.symbol]);
 
   return (
-    <div className="-mx-4 border-b border-hairline px-4 pb-3 lg:mx-0 lg:rounded-lg lg:border lg:px-4 lg:py-3">
+    <div className="-mx-4 border-b border-hairline px-4 pb-3 lg:mx-0 lg:rounded-xl lg:border lg:px-4 lg:py-3">
       <div className="flex items-center justify-between">
         <button onClick={() => router.back()} className="text-ink-muted lg:hidden" aria-label="Back">
           <ChevronLeft className="h-5 w-5" />

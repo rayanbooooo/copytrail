@@ -22,8 +22,8 @@ const variantClasses: Record<Variant, string> = {
 
 const sizeClasses: Record<Size, string> = {
   sm: "h-8 px-3 text-[12.5px]",
-  md: "h-10 px-4 text-[13.5px]",
-  lg: "h-11 px-5 text-[14.5px]",
+  md: "h-11 px-4 text-[14px]",
+  lg: "h-12 px-5 text-[15px]",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -34,7 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         whileTap={{ scale: 0.98 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-md font-medium",
+          "inline-flex items-center justify-center gap-2 rounded-xl font-medium",
           "transition-[background-color,border-color,color] duration-200",
           "disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100",
           variantClasses[variant],

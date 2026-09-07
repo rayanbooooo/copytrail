@@ -1,8 +1,9 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { getHoldings, getWallet, getWalletSnapshots } from "@/lib/db/queries";
+import { getHoldings, getRecentTrades, getWallet, getWalletSnapshots } from "@/lib/db/queries";
 import { PortfolioHeroCard } from "@/components/home/PortfolioHeroCard";
 import { QuickActions } from "@/components/home/QuickActions";
 import { HoldingsList } from "@/components/home/HoldingsList";
+import { RecentActivity } from "@/components/home/RecentActivity";
 
 function greeting() {
   const hour = new Date().getHours();
@@ -19,10 +20,11 @@ export default async function HomePage() {
 
   if (!user) return null;
 
-  const [wallet, snapshots, holdings] = await Promise.all([
+  const [wallet, snapshots, holdings, trades] = await Promise.all([
     getWallet(supabase, user.id),
     getWalletSnapshots(supabase, user.id, 90),
     getHoldings(supabase, user.id),
+    getRecentTrades(supabase, user.id, 10),
   ]);
 
   const firstName = user.email?.split("@")[0] ?? "there";
@@ -41,13 +43,29 @@ export default async function HomePage() {
             portfolioValue={wallet?.portfolio_value ?? 0}
           />
           <QuickActions />
+
+          <div className="hidden lg:block">
+            <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
+              Recent activity
+            </h2>
+            <RecentActivity trades={trades} />
+          </div>
         </div>
 
-        <div className="mt-6 lg:mt-0">
-          <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
-            Your portfolio
-          </h2>
-          <HoldingsList holdings={holdings} />
+        <div className="mt-6 space-y-6 lg:mt-0">
+          <div>
+            <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
+              Your portfolio
+            </h2>
+            <HoldingsList holdings={holdings} />
+          </div>
+
+          <div className="lg:hidden">
+            <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
+              Recent activity
+            </h2>
+            <RecentActivity trades={trades} />
+          </div>
         </div>
       </div>
     </div>

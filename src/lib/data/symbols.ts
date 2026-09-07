@@ -21,6 +21,25 @@ export const SYMBOL_UNIVERSE: SymbolMeta[] = [
   { symbol: "USDJPY", name: "US Dollar / Japanese Yen", assetClass: "forex", description: "Tracks the exchange rate between the United States and Japan." },
 ];
 
+// Per-company accent for the small logo chip on asset rows, matching each
+// brand's real color rather than a uniform gray square — the kind of detail
+// that separates a real brokerage list from a generic template.
+const SYMBOL_ACCENTS: Record<string, string> = {
+  AAPL: "bg-white/[0.12] text-white",
+  MSFT: "bg-sky-500/20 text-sky-300",
+  NVDA: "bg-emerald-500/20 text-emerald-300",
+  TSLA: "bg-rose-500/20 text-rose-300",
+  AMZN: "bg-amber-500/20 text-amber-300",
+  META: "bg-blue-500/20 text-blue-300",
+  EURUSD: "bg-indigo-500/20 text-indigo-300",
+  GBPUSD: "bg-purple-500/20 text-purple-300",
+  USDJPY: "bg-red-500/20 text-red-300",
+};
+
+export function getSymbolAccent(symbol: string): string {
+  return SYMBOL_ACCENTS[symbol.toUpperCase()] ?? "bg-white/[0.06] text-ink-muted";
+}
+
 export function getSymbolMeta(symbol: string): SymbolMeta {
   return (
     SYMBOL_UNIVERSE.find((s) => s.symbol === symbol.toUpperCase()) ?? {

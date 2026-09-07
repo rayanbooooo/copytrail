@@ -41,7 +41,8 @@ export async function submitSelfDirectedOrder(
     symbol: formData.get("symbol"),
     side: formData.get("side"),
     orderType: formData.get("orderType") ?? "market",
-    notionalAmount: formData.get("notionalAmount"),
+    notionalAmount: formData.get("notionalAmount") || undefined,
+    qty: formData.get("qty") || undefined,
     limitPrice: formData.get("limitPrice") || undefined,
   });
 
@@ -70,6 +71,8 @@ export async function submitSelfDirectedOrder(
     return { error: "Insufficient cash balance to cover the $1 platform fee." };
   }
 
+  const isLimit = parsed.data.orderType === "limit";
+
   let alpacaOrderId: string;
   let filledQty: number;
 
@@ -79,11 +82,20 @@ export async function submitSelfDirectedOrder(
       side: parsed.data.side,
       type: parsed.data.orderType,
       time_in_force: "day",
-      notional: parsed.data.orderType === "market" ? parsed.data.notionalAmount.toFixed(2) : undefined,
-      limit_price: parsed.data.limitPrice?.toFixed(2),
+      // Market orders are dollar-denominated (Alpaca "notional"); limit
+      // orders must be share-denominated ("qty") — Alpaca rejects a limit
+      // order submitted with notional instead of qty.
+      notional: isLimit ? undefined : parsed.data.notionalAmount!.toFixed(2),
+      qty: isLimit ? parsed.data.qty!.toString() : undefined,
+      limit_price: isLimit ? parsed.data.limitPrice!.toFixed(2) : undefined,
     });
     alpacaOrderId = order.id;
-    filledQty = Number(order.qty ?? order.filled_qty ?? 0) || parsed.data.notionalAmount;
+    // Limit orders: qty is exactly what we submitted, no ambiguity. Market
+    // (notional) orders: Alpaca doesn't confirm share qty until the fill
+    // webhook arrives, so this is a placeholder until reconciled.
+    filledQty = isLimit
+      ? parsed.data.qty!
+      : Number(order.qty ?? order.filled_qty ?? 0) || parsed.data.notionalAmount!;
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Order submission failed." };
   }
