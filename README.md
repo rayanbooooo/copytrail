@@ -18,10 +18,10 @@ Realtime) · Alpaca Broker API · Plaid · Stripe.
 Deployed on Vercel, connected to a live Supabase project (schema + demo
 leaderboard seed applied): https://copytrail-zeta.vercel.app
 
-Alpaca Broker API sandbox credentials are connected (`ALPACA_BROKER_API_KEY_ID`/
-`ALPACA_BROKER_API_SECRET`), so onboarding, KYC, funding, and order submission
-call real Alpaca sandbox endpoints. Market data (charts/live quotes) is still
-unconfigured — that's a separate credential pair.
+Alpaca (Broker API + Market Data), Plaid, and Stripe are not configured on
+this deployment yet — those sections render `ConfigMissingBanner` instead of
+calling a real API. Only Supabase is required for the app to boot; the rest
+degrade gracefully.
 
 Alpaca, Plaid, and Stripe are intentionally unconfigured in this preview —
 those sections of the app render `ConfigMissingBanner` instead of failing.
