@@ -2,10 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
+import { motion } from "framer-motion";
 import { FilterChips } from "@/components/ui/FilterChip";
 import { ConfigMissingBanner } from "@/components/ui/ConfigMissingBanner";
 import { MarketRow } from "@/components/markets/MarketRow";
 import { SYMBOL_UNIVERSE } from "@/lib/data/symbols";
+import { fadeInUp, staggerContainer } from "@/lib/motion/variants";
 
 const FILTERS = ["All", "Stocks", "Forex"] as const;
 
@@ -48,14 +50,22 @@ export function MarketsList({ marketDataConfigured }: { marketDataConfigured: bo
         />
       )}
 
-      <div className="divide-y divide-hairline-soft">
+      <motion.div
+        key={`${filter}-${query}`}
+        initial="hidden"
+        animate="visible"
+        variants={staggerContainer}
+        className="divide-y divide-hairline-soft lg:grid lg:grid-cols-2 lg:gap-3 lg:divide-y-0 xl:grid-cols-3"
+      >
         {results.map((meta) => (
-          <MarketRow key={meta.symbol} meta={meta} />
+          <motion.div key={meta.symbol} variants={fadeInUp}>
+            <MarketRow meta={meta} />
+          </motion.div>
         ))}
         {results.length === 0 && (
-          <p className="px-3 py-6 text-center text-[13px] text-ink-muted">No matches.</p>
+          <p className="px-3 py-6 text-center text-[13px] text-ink-muted lg:col-span-full">No matches.</p>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

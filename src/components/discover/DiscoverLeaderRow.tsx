@@ -10,7 +10,7 @@ export function DiscoverLeaderRow({ leader, isFollowing }: { leader: LeaderCardD
   const positive = leader.total_return_30d >= 0;
 
   return (
-    <div className="flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.02]">
+    <div className="flex items-center justify-between px-3 py-2.5 transition-colors hover:bg-white/[0.02] lg:block lg:rounded-xl2 lg:border lg:border-white/[0.06] lg:bg-surface lg:p-4 lg:transition-transform lg:duration-200 lg:hover:-translate-y-0.5 lg:hover:border-white/[0.1]">
       <Link href={`/leader/${leader.id}`} className="flex min-w-0 flex-1 items-center gap-2.5">
         <Avatar name={leader.displayName} size={40} />
         <div className="min-w-0">
@@ -29,8 +29,8 @@ export function DiscoverLeaderRow({ leader, isFollowing }: { leader: LeaderCardD
         </div>
       </Link>
 
-      <Link href={`/leader/${leader.id}/copy`} className="shrink-0">
-        <Button size="sm" variant={isFollowing ? "outline" : "primary"} className="rounded-full">
+      <Link href={`/leader/${leader.id}/copy`} className="shrink-0 lg:mt-4 lg:block">
+        <Button size="sm" fullWidth={false} variant={isFollowing ? "outline" : "primary"} className="rounded-full lg:w-full">
           {isFollowing ? "Managing" : "Copy"}
         </Button>
       </Link>

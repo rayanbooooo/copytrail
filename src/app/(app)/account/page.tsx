@@ -9,6 +9,7 @@ import { PortfolioBalanceCard } from "@/components/wallet/PortfolioBalanceCard";
 import { CopyEngineStatusBox } from "@/components/wallet/CopyEngineStatusBox";
 import { SubscriptionCard } from "@/components/wallet/SubscriptionCard";
 import { LinkedBanksModule } from "@/components/wallet/LinkedBanksModule";
+import { Reveal } from "@/components/shell/Reveal";
 import type { AlpacaAchRelationship } from "@/lib/alpaca/types";
 
 export default async function AccountPage() {
@@ -40,7 +41,7 @@ export default async function AccountPage() {
 
       <div className="lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
         <div className="space-y-6">
-          <div className="flex items-center gap-3">
+          <Reveal className="flex items-center gap-3">
             <Avatar name={user.email ?? "You"} size={56} />
             <div>
               <p className="text-[15px] font-semibold text-ink">{user.email}</p>
@@ -52,38 +53,46 @@ export default async function AccountPage() {
                 <p className="mt-0.5 text-[12.5px] font-medium text-amber-400">Verification pending</p>
               )}
             </div>
-          </div>
+          </Reveal>
 
-          <AccountMenu kycStatus={profile?.kyc_status ?? "pending"} />
+          <Reveal delay={0.05}>
+            <AccountMenu kycStatus={profile?.kyc_status ?? "pending"} />
+          </Reveal>
 
-          <CopyEngineStatusBox
-            following={
-              following
-                ? { leaderName: following.leaderDisplayName, allocationAmount: following.allocation_amount }
-                : null
-            }
-            nextBillingDate={subscription?.next_billing_date ?? null}
-          />
+          <Reveal delay={0.1}>
+            <CopyEngineStatusBox
+              following={
+                following
+                  ? { leaderName: following.leaderDisplayName, allocationAmount: following.allocation_amount }
+                  : null
+              }
+              nextBillingDate={subscription?.next_billing_date ?? null}
+            />
+          </Reveal>
 
-          <SubscriptionCard
-            status={subscription?.status ?? null}
-            nextBillingDate={subscription?.next_billing_date ?? null}
-            configured={isStripeConfigured()}
-          />
+          <Reveal delay={0.15}>
+            <SubscriptionCard
+              status={subscription?.status ?? null}
+              nextBillingDate={subscription?.next_billing_date ?? null}
+              configured={isStripeConfigured()}
+            />
+          </Reveal>
         </div>
 
         <div className="mt-6 space-y-6 lg:mt-0">
-          <PortfolioBalanceCard
-            cashBalance={wallet?.cash_balance ?? 0}
-            portfolioValue={wallet?.portfolio_value ?? 0}
-          />
+          <Reveal delay={0.05}>
+            <PortfolioBalanceCard
+              cashBalance={wallet?.cash_balance ?? 0}
+              portfolioValue={wallet?.portfolio_value ?? 0}
+            />
+          </Reveal>
 
-          <div>
+          <Reveal delay={0.1}>
             <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
               Linked accounts
             </h2>
             <LinkedBanksModule relationships={relationships} configured={bankLinkConfigured} />
-          </div>
+          </Reveal>
         </div>
       </div>
     </div>

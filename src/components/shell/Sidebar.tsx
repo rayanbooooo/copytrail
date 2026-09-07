@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { History, Star } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { navItems } from "@/components/shell/BottomNav";
@@ -16,7 +17,7 @@ export function Sidebar({ userEmail }: { userEmail?: string }) {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-white/[0.06] bg-[#0B0C12] px-4 py-6 lg:flex">
+    <aside className="sticky top-0 z-10 hidden h-screen w-64 shrink-0 flex-col border-r border-white/[0.06] bg-black/70 px-4 py-6 backdrop-blur-xl lg:flex">
       <Link href="/home" className="mb-8 flex items-center gap-2.5 px-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.1] bg-gradient-to-br from-emerald-signal/25 to-transparent">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -34,12 +35,19 @@ export function Sidebar({ userEmail }: { userEmail?: string }) {
               key={href}
               href={href}
               className={cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] font-medium transition-colors",
-                active ? "bg-white/[0.06] text-ink" : "text-ink-muted hover:text-ink",
+                "relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] font-medium transition-colors",
+                active ? "text-ink" : "text-ink-muted hover:text-ink",
               )}
             >
-              <Icon className="h-[18px] w-[18px]" strokeWidth={active ? 2.2 : 1.8} />
-              {label}
+              {active && (
+                <motion.span
+                  layoutId="sidebar-active-pill"
+                  className="absolute inset-0 rounded-xl bg-white/[0.07]"
+                  transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                />
+              )}
+              <Icon className="relative z-10 h-[18px] w-[18px]" strokeWidth={active ? 2.2 : 1.8} />
+              <span className="relative z-10">{label}</span>
             </Link>
           );
         })}

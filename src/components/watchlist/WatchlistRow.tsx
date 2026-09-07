@@ -12,21 +12,23 @@ export function WatchlistRow({ meta }: { meta: SymbolMeta }) {
 
   if (removed) return null;
 
+  function remove() {
+    startTransition(async () => {
+      const result = await toggleWatchlist(meta.symbol);
+      if (result.watching === false) setRemoved(true);
+    });
+  }
+
   return (
-    <div className="flex items-center">
-      <div className="flex-1">
+    <div className="relative flex items-center lg:block">
+      <div className="flex-1 lg:block">
         <MarketRow meta={meta} />
       </div>
       <button
         disabled={pending}
-        onClick={() =>
-          startTransition(async () => {
-            const result = await toggleWatchlist(meta.symbol);
-            if (result.watching === false) setRemoved(true);
-          })
-        }
+        onClick={remove}
         aria-label="Remove from watchlist"
-        className="mr-3 shrink-0 text-ink-faint active:scale-90 transition-transform"
+        className="mr-3 shrink-0 text-ink-faint transition-transform active:scale-90 lg:absolute lg:right-3 lg:top-3 lg:mr-0 lg:z-10"
       >
         <Star className="h-[18px] w-[18px] fill-emerald-signal text-emerald-signal" />
       </button>

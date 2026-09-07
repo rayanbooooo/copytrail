@@ -47,15 +47,15 @@ export function PortfolioHeroCard({
   }, [snapshots, total]);
 
   return (
-    <Card>
-      <p className="text-[10.5px] font-semibold uppercase tracking-wide text-ink-faint">
+    <Card className="lg:p-6">
+      <p className="text-[10.5px] font-semibold uppercase tracking-wide text-ink-faint lg:text-[11.5px]">
         Total portfolio value
       </p>
-      <p className="mt-1 font-mono text-[30px] font-semibold leading-none tracking-tight tabular-nums text-ink">
+      <p className="mt-1 font-mono text-[30px] font-semibold leading-none tracking-tight tabular-nums text-ink lg:text-[42px]">
         {formatCurrency(total)}
       </p>
       {series.length >= 2 ? (
-        <p className={`mt-1.5 font-mono text-[13px] font-medium tabular-nums ${positive ? "text-emerald-signal" : "text-rose-signal"}`}>
+        <p className={`mt-1.5 font-mono text-[13px] font-medium tabular-nums lg:text-[15px] ${positive ? "text-emerald-signal" : "text-rose-signal"}`}>
           {formatSignedCurrency(changeAbsolute)} ({formatPercent(changePercent, { signed: true })}){" "}
           <span className="font-sans font-normal text-ink-faint">today</span>
         </p>
@@ -63,7 +63,7 @@ export function PortfolioHeroCard({
         <p className="mt-1.5 text-[12px] text-ink-faint">History fills in daily.</p>
       )}
 
-      <div className="-mx-1 mt-3 h-[110px]">
+      <div className="-mx-1 mt-3 h-[110px] lg:h-[160px]">
         <Sparkline data={series} positive={positive} width={340} height={110} filled className="h-full w-full" />
       </div>
 

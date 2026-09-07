@@ -2,9 +2,8 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { getWatchlist } from "@/lib/db/queries";
-import { getSymbolMeta } from "@/lib/data/symbols";
 import { Card } from "@/components/ui/Card";
-import { WatchlistRow } from "@/components/watchlist/WatchlistRow";
+import { WatchlistGrid } from "@/components/watchlist/WatchlistGrid";
 
 export default async function WatchlistPage() {
   const supabase = await createServerSupabaseClient();
@@ -36,11 +35,7 @@ export default async function WatchlistPage() {
           </p>
         </Card>
       ) : (
-        <div className="divide-y divide-hairline-soft">
-          {items.map((item) => (
-            <WatchlistRow key={item.id} meta={getSymbolMeta(item.symbol)} />
-          ))}
-        </div>
+        <WatchlistGrid items={items} />
       )}
 
       <Link

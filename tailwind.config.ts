@@ -56,9 +56,19 @@ const config: Config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.45" },
         },
+        driftA: {
+          "0%, 100%": { transform: "translate(-8%, -6%) scale(1)" },
+          "50%": { transform: "translate(6%, 8%) scale(1.15)" },
+        },
+        driftB: {
+          "0%, 100%": { transform: "translate(10%, 4%) scale(1.1)" },
+          "50%": { transform: "translate(-8%, -10%) scale(0.95)" },
+        },
       },
       animation: {
         "pulse-slow": "pulseSlow 2.2s ease-in-out infinite",
+        "drift-a": "driftA 22s ease-in-out infinite",
+        "drift-b": "driftB 26s ease-in-out infinite",
       },
     },
   },

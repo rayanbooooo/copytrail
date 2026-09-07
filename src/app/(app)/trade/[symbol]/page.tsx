@@ -3,6 +3,7 @@ import { getTradesForSymbol, getWallet } from "@/lib/db/queries";
 import { getSymbolMeta } from "@/lib/data/symbols";
 import { AssetHeader } from "@/components/terminal/AssetHeader";
 import { TerminalBody } from "@/components/terminal/TerminalBody";
+import { Reveal } from "@/components/shell/Reveal";
 
 export default async function TradeTerminalPage({
   params,
@@ -31,9 +32,9 @@ export default async function TradeTerminalPage({
   ]);
 
   return (
-    <div className="space-y-3">
+    <Reveal className="space-y-3">
       <AssetHeader meta={meta} initiallyWatched={Boolean(watchlistRow.data)} />
       <TerminalBody meta={meta} buyingPower={wallet?.cash_balance ?? 0} symbolTrades={symbolTrades} />
-    </div>
+    </Reveal>
   );
 }

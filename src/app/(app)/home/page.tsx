@@ -5,6 +5,7 @@ import { QuickActions } from "@/components/home/QuickActions";
 import { HoldingsList } from "@/components/home/HoldingsList";
 import { RecentActivity } from "@/components/home/RecentActivity";
 import { NotificationsButton } from "@/components/home/NotificationsButton";
+import { Reveal } from "@/components/shell/Reveal";
 
 function greeting() {
   const hour = new Date().getHours();
@@ -41,35 +42,39 @@ export default async function HomePage() {
 
       <div className="lg:grid lg:grid-cols-[1.4fr_1fr] lg:gap-6 lg:space-y-0">
         <div className="space-y-6">
-          <PortfolioHeroCard
-            snapshots={snapshots}
-            cashBalance={wallet?.cash_balance ?? 0}
-            portfolioValue={wallet?.portfolio_value ?? 0}
-          />
-          <QuickActions />
+          <Reveal>
+            <PortfolioHeroCard
+              snapshots={snapshots}
+              cashBalance={wallet?.cash_balance ?? 0}
+              portfolioValue={wallet?.portfolio_value ?? 0}
+            />
+          </Reveal>
+          <Reveal delay={0.05}>
+            <QuickActions />
+          </Reveal>
 
-          <div className="hidden lg:block">
+          <Reveal delay={0.1} className="hidden lg:block">
             <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
               Recent activity
             </h2>
             <RecentActivity trades={trades} />
-          </div>
+          </Reveal>
         </div>
 
         <div className="mt-6 space-y-6 lg:mt-0">
-          <div>
+          <Reveal delay={0.08}>
             <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
               Your portfolio
             </h2>
             <HoldingsList holdings={holdings} />
-          </div>
+          </Reveal>
 
-          <div className="lg:hidden">
+          <Reveal delay={0.14} className="lg:hidden">
             <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-ink-faint">
               Recent activity
             </h2>
             <RecentActivity trades={trades} />
-          </div>
+          </Reveal>
         </div>
       </div>
     </div>
