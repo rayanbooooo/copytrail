@@ -22,7 +22,7 @@ export default async function HomePage() {
 
   const [wallet, snapshots, holdings, trades] = await Promise.all([
     getWallet(supabase, user.id),
-    getWalletSnapshots(supabase, user.id, 90),
+    getWalletSnapshots(supabase, user.id, 400),
     getHoldings(supabase, user.id),
     getRecentTrades(supabase, user.id, 10),
   ]);

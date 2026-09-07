@@ -8,10 +8,10 @@ import { Stat } from "@/components/ui/Stat";
 import { formatCurrency, formatSignedCurrency, formatPercent } from "@/lib/utils/formatting";
 import type { WalletSnapshotRow } from "@/types/database";
 
-const TIMEFRAMES = ["1W", "1M", "3M", "ALL"] as const;
+const TIMEFRAMES = ["1D", "1W", "1M", "3M", "1Y", "ALL"] as const;
 type Timeframe = (typeof TIMEFRAMES)[number];
 
-const WINDOW: Record<Timeframe, number> = { "1W": 7, "1M": 30, "3M": 90, ALL: 9999 };
+const WINDOW: Record<Timeframe, number> = { "1D": 2, "1W": 7, "1M": 30, "3M": 90, "1Y": 365, ALL: 9999 };
 
 export function PortfolioHeroCard({
   snapshots,
@@ -22,7 +22,7 @@ export function PortfolioHeroCard({
   cashBalance: number;
   portfolioValue: number;
 }) {
-  const [timeframe, setTimeframe] = useState<Timeframe>("1M");
+  const [timeframe, setTimeframe] = useState<Timeframe>("1D");
   const total = cashBalance + portfolioValue;
 
   const windowed = useMemo(() => {
@@ -35,6 +35,16 @@ export function PortfolioHeroCard({
   const changeAbsolute = series.length >= 2 && first !== undefined ? total - first : 0;
   const changePercent = series.length >= 2 && first ? (changeAbsolute / first) * 100 : 0;
   const positive = changeAbsolute >= 0;
+
+  const todaysPnl = useMemo(() => {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const priorClose = [...snapshots].filter((s) => s.snapshot_date < todayStr).pop();
+    if (!priorClose) return null;
+    const basis = priorClose.cash_balance + priorClose.portfolio_value;
+    const absolute = total - basis;
+    const percent = basis ? (absolute / basis) * 100 : 0;
+    return { absolute, percent, positive: absolute >= 0 };
+  }, [snapshots, total]);
 
   return (
     <Card>
@@ -62,7 +72,15 @@ export function PortfolioHeroCard({
       </div>
 
       <div className="flex items-center justify-between rounded border border-hairline-soft bg-black/20 px-3 py-2.5">
-        <Stat label="Cash available" value={formatCurrency(cashBalance)} />
+        <Stat
+          label="Today's P&L"
+          value={
+            todaysPnl
+              ? `${formatSignedCurrency(todaysPnl.absolute)} (${formatPercent(todaysPnl.percent, { signed: true })})`
+              : "—"
+          }
+          tone={todaysPnl ? (todaysPnl.positive ? "positive" : "negative") : "neutral"}
+        />
         <Stat label="Invested" value={formatCurrency(portfolioValue)} align="center" />
       </div>
     </Card>
